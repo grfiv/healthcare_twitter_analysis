@@ -11,7 +11,7 @@ I. Setup
   - add_twitter_data.py   
   - twitter_credentials.py 
 
-2. Copy in the *.csv file you want to convert (I have only tested with Tweets_BleedingDisorders.csv)
+2. Copy in the *.csv file you want to convert (I have only tested with *Tweets_BleedingDisorders.csv*)
 
 
 3. Modify "twitter_credentials.py" with your personal Twitter credentials  
@@ -43,6 +43,6 @@ Twitter has a throttle which may stop you mid-flight and force you to wait 15 mi
 
 This is version 0.1. An improvement will be for me to move to batch requests and to use POST rather than GET.  
 
-In the meantime, even with the throttle this should give you something you can test your analyses and visualizations on without having to bother yourself with the data acquision from Twitter.
+In the meantime, even with the throttle, this should give you something you can test your analyses and visualizations on without having to bother yourself with the data acquision from Twitter.
 
 If you have problems I will try to help: george@georgefisher.com
