@@ -9,12 +9,12 @@ I. Setup
 1. Pull these files onto your computer 
   - twitter_functions.py
   - add_twitter_data.py   
-  - twitter_credentials.py (and fill in your info on this one)    
+  - twitter_credentials.py 
 
 2. Copy in the *.csv file you want to convert (I have only tested with Tweets_BleedingDisorders.csv)
 
 
-3. Create a file named "twitter_credentials.py" with your personal Twitter credentials  
+3. Modify "twitter_credentials.py" with your personal Twitter credentials  
 ``` 
 def twitter_credentials():  
     """
