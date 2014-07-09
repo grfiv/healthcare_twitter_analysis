@@ -1,5 +1,8 @@
 Coursolve Healthcare Twitter Analysis project
 ===========================
+Try a sample file
+=================
+Before trying the instructions below, just download the sample *.csv file and play around with it. It may have enough data in it to get you started with basic analyses and visualizations.
 
 I. Setup
 ========
@@ -33,6 +36,8 @@ The program will notify you every 10 lines; the output file is the name of the i
 
 Twitter has a throttle which may stop you mid-flight and force you to wait 15 minutes. BUT, if any input lines have been processed by that point they WILL be written to the output file.
 
-This is version 0.1. An improvement will be for me to move to batch requests and to use POST rather than GET. In the meantime, even with the throttle this should give you something you can test your analyses and visualizations on without having to bother yourself with the data acquision from Twitter.
+This is version 0.1. An improvement will be for me to move to batch requests and to use POST rather than GET.  
+
+In the meantime, even with the throttle this should give you something you can test your analyses and visualizations on without having to bother yourself with the data acquision from Twitter.
 
 If you have problems I will try to help: george@georgefisher.com
