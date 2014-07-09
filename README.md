@@ -11,7 +11,7 @@ I. Setup
   - add_twitter_data.py   
   - twitter_credentials.py 
 
-2. Copy in the .csv file you want to convert (I have only tested with *Tweets_BleedingDisorders.csv*)
+2. Copy in the .csv file you want to convert (I have only tested with the sample files...that's where they came from)
 
 
 3. Modify "twitter_credentials.py" with your personal Twitter credentials  
