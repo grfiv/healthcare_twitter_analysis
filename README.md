@@ -6,9 +6,10 @@ Before trying the instructions below, just download the sample *.csv file and pl
 
 I. Setup
 ========
-1. Pull both of these files onto your computer 
+1. Pull these files onto your computer 
   - twitter_functions.py
-  - add_twitter_data.py  
+  - add_twitter_data.py   
+  - twitter_credentials.py (and fill in your info on this one)    
 
 2. Copy in the *.csv file you want to convert (I have only tested with Tweets_BleedingDisorders.csv)
 
