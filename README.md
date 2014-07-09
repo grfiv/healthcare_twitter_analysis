@@ -13,9 +13,13 @@ I. Setup
 2. Copy in the *.csv file you want to convert (I have only tested with Tweets_BleedingDisorders.csv)
 
 
-3. Create a file named "twitter_credentials.py" with your personal Twitter credentials:  
+3. Create a file named "twitter_credentials.py" with your personal Twitter credentials  
 ``` 
 def twitter_credentials():  
+    """
+    A sample of this file is on the repo. Just download it, fill in your info and
+    save it in the same path as the other files.
+    """
     api_key = " your credentials "  
     api_secret = " your credentials "  
     access_token_key = " your credentials "  
