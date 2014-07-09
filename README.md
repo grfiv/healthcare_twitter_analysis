@@ -2,7 +2,7 @@ Coursolve Healthcare Twitter Analysis project
 ===========================
 Try a sample file
 =================
-Before trying the instructions below, just download one of the sample .csv files and play around. They may have enough data in it to get you started with basic analyses and visualizations.
+Before trying the instructions below, just download one of the sample .csv files and play around. They may have enough data to get you started with basic analyses and visualizations.
 
 I. Setup
 ========
