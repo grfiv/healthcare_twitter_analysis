@@ -94,8 +94,7 @@ def twitter_credentials():
            output_dict.append(line)
            if counter%10 == 0: print "item " + str(counter) + " processed"
            counter+=1
-           if (counter > 100): 
-            break
+           #if (counter > 100): break
             
     if output_dict:
         f = open(output_filename,'wb')
