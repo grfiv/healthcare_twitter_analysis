@@ -20,6 +20,8 @@ def twitter_credentials():
     """
     A sample of this file is on the repo. Just download it, fill in your info and
     save it in the same path as the other files.
+    
+    See https://apps.twitter.com/ to get your own credentials
     """
     api_key = " your credentials "  
     api_secret = " your credentials "  
