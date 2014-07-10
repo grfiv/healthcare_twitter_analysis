@@ -55,3 +55,11 @@ This is version 0.2.
 
 
 This version is pretty robust, so you ought to really be able to make progress. But bugs undoubtedly remain and if you encounter problems I will try to help: george@georgefisher.com
+
+Other Files
+=================
+
+- **hashtag_split.py**  
+  input:  a csv file that has been processed by add_twitter_data_bulk.py  
+  output: a csv file with one row for every hashtag in a row of the input file  
+  use:    %run hashtag_split "Tweets_BleedingDisorders_full.csv"  
