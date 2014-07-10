@@ -192,3 +192,48 @@ for user in userdata:
     response = twitterreq(url, "GET", parameters)
       
     return response
+    
+def parse_tweet_json(line, tweetdata):
+    """
+    Take in a line from the file as a dict
+    Add to it the relevant fields from the json returned by Twitter
+    """
+    line["coordinates"]  = str(tweetdata["coordinates"])
+    line["favorited"]    = str(tweetdata["favorited"])
+    if tweetdata["entities"] is not None:
+         if tweetdata["entities"]["hashtags"] is not None:
+             hashtag_string = ""
+             for tag in tweetdata["entities"]["hashtags"]:
+                 hashtag_string = hashtag_string + tag["text"] + "~"
+             hashtag_string = hashtag_string[:-1]
+             line["hashtags"] = str(hashtag_string.encode('utf-8'))
+         else:
+             line["hashtags"] = ""
+         if tweetdata["entities"]["user_mentions"] is not None:
+             user_mentions_string = ""
+             for tag in tweetdata["entities"]["user_mentions"]:
+                 user_mentions_string = user_mentions_string + tag["screen_name"] + "~"
+             user_mentions_string = user_mentions_string[:-1]
+             line["user_mentions"] = str(user_mentions_string)
+         else:
+             line["user_mentions"] = ""
+    line["retweet_count"] = str(tweetdata["retweet_count"])
+    line["retweeted"]     = str(tweetdata["retweeted"])
+    line["place"]         = str(tweetdata["place"])
+    line["geo"]           = str(tweetdata["geo"])
+    if tweetdata["user"] is not None:
+        line["followers_count"]  = str(tweetdata["user"]["followers_count"])
+        line["favourites_count"] = str(tweetdata["user"]["favourites_count"])
+        line["listed_count"]     = str(tweetdata["user"]["listed_count"])
+        line["location"]         = str(tweetdata["user"]["location"].encode('utf-8'))
+        line["utc_offset"]       = str(tweetdata["user"]["utc_offset"])
+        line["listed_count"]     = str(tweetdata["user"]["listed_count"])
+        line["lang"]             = str(tweetdata["user"]["lang"])
+        line["geo_enabled"]      = str(tweetdata["user"]["geo_enabled"])
+        line["time_zone"]        = str(tweetdata["user"]["time_zone"])
+        line["description"]      = tweetdata["user"]["description"].encode('utf-8')
+        
+    # why no return? Because Python uses call by reference
+    # and our modifications to "line" are actually done to
+    # the variable the reference to which was passed in
+    #return line
