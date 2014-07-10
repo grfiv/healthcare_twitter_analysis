@@ -35,7 +35,7 @@ def twitter_credentials():
     import csv
     import json
     from twitter_functions import lookup_multiple_tweets
-    from add_twitter_data  import parse_tweet_json
+    from twitter_functions import parse_tweet_json
     
     output_filename = input_filename.split(".")[0] + "_full.csv"
     step              = 90  # we're going to process in groups of "step"
