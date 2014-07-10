@@ -24,8 +24,8 @@ def twitter_credentials():
         Twitter for every line
         
      4. IPython usage:
-        (1) from add_twitter_data_bulk import add_twitter_data
-            add_twitter_data("Tweets_BleedingDisorders.csv")
+        (1) from add_twitter_data_bulk import add_twitter_data_bulk
+            add_twitter_data_bulk("Tweets_BleedingDisorders.csv")
             
         (2) %run add_twitter_data_bulk.py "Tweets_BleedingDisorders.csv"
         
