@@ -14,7 +14,7 @@ I. Setup
 2. Note: **add_twitter_data_bulk.py** replaces *add_twitter_data.py*  
          you must download the new version of **twitter_functions.py**
 
-3. Copy in any .csv files you want to convert from 
+3. Copy in any .csv files you want to convert from   
    https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing
 
 4. Modify "twitter_credentials.py" with your personal Twitter credentials  
