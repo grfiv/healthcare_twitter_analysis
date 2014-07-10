@@ -44,7 +44,7 @@ cd <to the folder with the programs and files>
 
 The program will notify you after every batch; the output file is the name of the input file with "_full" appended. Twitter sometimes returns less data than we requested, in which case we stop and request a new batch. Rows processed up to an id mismatch are retained.
 
-This updated code gets MUCH further before running into Twitter's throttle (I processed over 10,000 lines during testing before I hit it) but it's still there. However, as before, if any input lines have been processed by that point they WILL be written to the output file.
+This updated code gets MUCH further before running into Twitter's throttle (I processed well over 10,000 lines during testing before I hit it) but it's still there. As before, if any input lines have been processed by that point they WILL be written to the output file.
 
 This is version 0.2.   
 - Batch processing has been added. 
