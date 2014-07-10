@@ -8,13 +8,16 @@ I. Setup
 ========
 1. Pull these files onto your computer 
   - twitter_functions.py
-  - add_twitter_data.py   
+  - add_twitter_data_bulk.py   
   - twitter_credentials.py 
+  
+2. Note: add_twitter_data_bulk.py replaces add_twitter_data_bulk.py  
+         you must refresh twitter_functions.py
 
-2. Copy in the .csv file you want to convert (I have only tested with the sample files...that's where they came from)
+3. Copy in the .csv file you want to convert (I have only tested with the sample files...that's where they came from)
 
 
-3. Modify "twitter_credentials.py" with your personal Twitter credentials  
+4. Modify "twitter_credentials.py" with your personal Twitter credentials  
 ``` 
 def twitter_credentials():  
     """
@@ -35,8 +38,8 @@ II. Run
 
 In IPython:
 ```
-cd the folder with the programs and file
-%run add_twitter_data.py "the_name_of_your_file.csv"
+cd <to the folder with the programs and files>
+%run add_twitter_data_bulk.py "the_name_of_your_file.csv"
 ```
 
 The program will notify you every 10 lines; the output file is the name of the input file with "_full" appended.    
