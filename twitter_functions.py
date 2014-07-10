@@ -1,4 +1,3 @@
-
 def twitterreq(url, method, parameters):
     """
     Send twitter URL request
@@ -6,15 +5,15 @@ def twitterreq(url, method, parameters):
     Utility function used by the others in this package
     
     Note: calls a function twitter_credentials() contained in
-          a file named twitter_credentials.py which must be provided 
-          individually by each user, which returns the values for: 
-              api_key
-              api_secret
-              access_token_key
-              access_token_secret
-          as a tuple in that order
+          a file named twitter_credentials.py which must be provided as follows:
+
+            api_key = " your credentials "  
+            api_secret = " your credentials "  
+            access_token_key = " your credentials "  
+            access_token_secret = " your credentials "  
+            return (api_key,api_secret,access_token_key,access_token_secret)
           
-     This is a modification of a shell provided by
+     This function is based on a shell provided by
      Bill Howe
      University of Washington
      for the Coursera course Introduction to Data Science
@@ -76,30 +75,50 @@ def lookup_tweet(tweet_id):
     the Twitter API for this is here:
     https://dev.twitter.com/docs/api/1.1/get/statuses/show/%3Aid
     
-Use: 
-import json
-from twitter_functions import lookup_tweet
-
-result = lookup_tweet("473010591544520705")
-for foo in result:
-    tweetdata = json.loads(foo)
-    break
+#Use: 
+#import json
+#from twitter_functions import lookup_tweet
+#
+#result = lookup_tweet("473010591544520705")
+#for foo in result:
+#    tweetdata = json.loads(foo)
+#    break
 # there must be a better way
-
-print json.dumps(tweetdata, sort_keys = False, indent = 4)
-
-
-# all may be null; have to check
-for tag in tweetdata["entities"]["hashtags"]:
-print tag["text"]
-tweetdata["place"]
-tweetdata["geo"]
-tweetdata["lang"]
-tweetdata["coordinates"]
-# plus, potentially redundant, tweetdata["user"][...]
+#
+#print json.dumps(tweetdata, sort_keys = False, indent = 4)
     """
     
     url = "https://api.twitter.com/1.1/statuses/show.json?id=" + tweet_id
+    parameters = []
+    response = twitterreq(url, "GET", parameters)
+      
+    return response
+    
+def lookup_multiple_tweets(list_of_tweet_ids):
+    """
+    Ask Twitter for information about 
+    a bulk list of tweets by id
+    
+    the Twitter API for this is here:
+    https://dev.twitter.com/docs/api/1.1/get/statuses/lookup
+    
+    Use: 
+import json
+from twitter_functions import lookup_multiple_tweets
+
+list_of_tweet_ids = ["473010591544520705","473097867465224192"]
+result = lookup_multiple_tweets(list_of_tweet_ids)
+for foo in result:
+    tweetdata_list = json.loads(foo)
+    break
+# there must be a better way
+
+for tweetdata in tweetdata_list:
+    print json.dumps(tweetdata, sort_keys = False, indent = 4)
+    """
+    
+    csv_of_tweet_ids = ",".join(list_of_tweet_ids)
+    url = "https://api.twitter.com/1.1/statuses/lookup.json?id=" + csv_of_tweet_ids
     parameters = []
     response = twitterreq(url, "GET", parameters)
       
