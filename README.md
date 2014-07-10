@@ -42,12 +42,16 @@ cd <to the folder with the programs and files>
 %run add_twitter_data_bulk.py "the_name_of_your_file.csv"
 ```
 
-The program will notify you every 10 lines; the output file is the name of the input file with "_full" appended.    
+The program will notify you after every batch; the output file is the name of the input file with "_full" appended. Twitter sometimes returns less data than we requested, in which place we stop and request a new batch.  
 
-Twitter has a throttle which may stop you mid-flight and force you to wait 15 minutes. BUT, if any input lines have been processed by that point they WILL be written to the output file.
+This updated code gets MUCH further before running into Twitter's throttle (I processed nearly 10,000 lines during testing before I hit it) but it's still there. BUT, if any input lines have been processed by that point they WILL be written to the output file.
 
-This is version 0.1. An improvement will be for me to move to batch requests and to use POST rather than GET.  
+This is version 0.2.   
+- Batch processing has been added. 
+- POST processing is recommended by Twitter but I don't currently see the need.
+- If anyone want me to parse out place names, send me a python list `place_names = ["Boston","Hong Kong", ...]`
 
-In the meantime, even with the throttle, this should give you something you can test your analyses and visualizations on without having to bother yourself with the data acquision from Twitter.
+
+In the meantime, even with the throttle, this should give you something you can test your analyses and visualizations on without having to bother yourself with the data acquisition from Twitter.
 
 If you have problems I will try to help: george@georgefisher.com
