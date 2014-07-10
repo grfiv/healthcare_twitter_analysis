@@ -37,14 +37,14 @@ def twitter_credentials():
     from twitter_functions import lookup_multiple_tweets
     from twitter_functions import parse_tweet_json
     
-    output_filename = input_filename.split(".")[0] + "_full.csv"
-    step              = 90  # we're going to process in groups of "step"
+    output_filename   = input_filename.split(".")[0] + "_full.csv"
+    step              = 95  # we're going to process in groups of "step"
     bulk_list         = []  # batch of rows from input file 
     list_of_tweet_ids = []  # tweet ids of these rows
     output_dict       = []  # list of dicts to send to output file
     
     with open(input_filename, "rb" ) as infile:
-       reader = csv.DictReader(infile)
+       reader     = csv.DictReader(infile)
        lines      = list(reader) # list of all lines/rows in the input file
        totallines = len(lines)   # number of lines in the input file
        print "Rows in file: " + str(totallines)
@@ -67,7 +67,6 @@ def twitter_credentials():
                # make a batch request to Twitter 
                result = lookup_multiple_tweets(list_of_tweet_ids)
                list_of_tweet_ids = []
-               #print type(result)
                for foo in result:
                    tweetdata_list = json.loads(foo)
                    break
@@ -93,6 +92,7 @@ def twitter_credentials():
                tweetdata_list = sorted(tweetdata_list, key=lambda k: k['id'])
                if len(bulk_list) != len(tweetdata_list):
                    print "\nTwitter returned a different number of responses than we requested"
+                   print "linenum:   " + str(linenum)
                    print "Requested: " + str(len(bulk_list))
                    print "Received:  " + str(len(tweetdata_list))
                
@@ -120,20 +120,7 @@ def twitter_credentials():
         print output_filename + " has been created"
     else:
         print output_filename + " was NOT created"
-               
-               
-               
-               
-           
-
-
-
-
-                  
-
-           
-
-        
+                       
 
 if __name__ == '__main__':
     import sys
