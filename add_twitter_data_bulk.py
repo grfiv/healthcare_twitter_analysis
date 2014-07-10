@@ -38,7 +38,7 @@ def twitter_credentials():
     from add_twitter_data  import parse_tweet_json
     
     output_filename = input_filename.split(".")[0] + "_full.csv"
-    step              = 75  # we're going to process in groups of "step"
+    step              = 90  # we're going to process in groups of "step"
     bulk_list         = []  # batch of rows from input file 
     list_of_tweet_ids = []  # tweet ids of these rows
     output_dict       = []  # list of dicts to send to output file
