@@ -63,7 +63,7 @@ Other Files
   input:  a csv file that has been processed by add_twitter_data_bulk.py  
   output: a csv file with one row for every hashtag in a row of the input file  
   use:    %run hashtag_split "Tweets_BleedingDisorders_full.csv"  
-- **usermentions_split**  
+- **usermentions_split.py**  
   input:  a csv file that has been processed by add_twitter_data_bulk.py  
   output: a csv file with one row for every *user_mentions* item in a row of the input file  
   use:    %run usermentions_split "Tweets_BleedingDisorders_full.csv"  
