@@ -1,7 +1,7 @@
 Coursolve Healthcare Twitter Analysis project
 ===========================  
 
-The initial purpose of this repo was to distribute a program that would query Twitter for the tweets in the files provided by the project and to add more data. It has accomplished that and evolved a bit beyond.
+The initial purpose of this repo was to distribute a program that would query Twitter for the tweets in the files provided by the project and to add more data. It has accomplished that and evolved.
 
 Try a sample file
 =================
@@ -48,9 +48,9 @@ cd <to the folder with the programs and files>
 %run add_twitter_data_bulk.py "the_name_of_your_file.csv"
 ```
 
-The program will notify you after every batch; the output file is the name of the input file with "_full" appended. Twitter sometimes returns less data than we requested, in which case we stop and request a new batch. Rows processed up to an id mismatch are retained.
+The program will notify you after every batch; the output file is the name of the input file with "_full" appended. Twitter sometimes returns less data than we requested, in which case we stop when we reach an id mismatch and request a new batch. Rows processed up to an id mismatch are retained.
 
-This updated code gets MUCH further before running into Twitter's throttle (I processed well over 10,000 lines during testing before I hit it) but it's still there. As before, if any input lines have been processed by that point they WILL be written to the output file.
+The change from serial to batch processing gets much further before running into Twitter's throttle (I processed well over 10,000 lines during testing before I hit it) but it's still there. As before, if any input lines have been processed by that point they WILL be written to the output file. The new code also runs to completion considerably faster.
 
 This is version 0.2.   
 - Batch processing has been added. 
