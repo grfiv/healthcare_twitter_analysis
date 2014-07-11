@@ -60,7 +60,7 @@ This is version 0.2.
 
 This version is pretty robust, so you ought to really be able to make progress. But bugs undoubtedly remain and if you encounter problems I will try to help: george@georgefisher.com
 
-Other Files
+Utilities
 =================
 
 - **hashtag_split.py**  
@@ -74,4 +74,11 @@ Other Files
 - **add_sentiment.py**  
   input:  a csv file that has been processed by add_twitter_data_bulk.py  
   output: a csv file with *sentiment* field added based on AFINN-111.txt  
-  use:    %run add_sentiment "Tweets_BleedingDisorders_full.csv"
+  use:    %run add_sentiment "Tweets_BleedingDisorders_full.csv"  
+  
+Analyses
+=================  
+
+
+- **Hashtags_and_Score.pdf**  
+  A quick look at hashtag and score distributions    
