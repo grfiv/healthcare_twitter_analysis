@@ -1,8 +1,11 @@
 Coursolve Healthcare Twitter Analysis project
-===========================
+===========================  
+
+The initial purpose of this repo was to distribute a program that would query Twitter for the tweets in the files provided by the project and to add more data. It has accomplished that and evolved a bit beyond.
+
 Try a sample file
 =================
-Before trying the instructions below, just download one of the sample .csv files and play around. They may have enough data to get you started with basic analyses and visualizations.
+Before trying the instructions below, just download one of the sample .csv files and play around. These files have been filled out with the data available from Twitter and will get you started with analyses and visualizations.
 
 I. Setup
 ========
