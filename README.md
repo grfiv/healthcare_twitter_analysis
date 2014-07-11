@@ -55,7 +55,7 @@ The change from serial to batch processing gets much further before running into
 This is version 0.2.   
 - Batch processing has been added. 
 - POST processing is recommended by Twitter but I don't currently see the need.
-- If anyone wants me to parse out place names, send me a python list   
+- If anyone wants me to parse out place names, send me a python list via the "Issues" tab to the right of the GitHub screen     
   `place_names = ["Boston","Hong Kong", ...]`  
   Don't include junk like DE for Delaware or IN for Indiana
 
