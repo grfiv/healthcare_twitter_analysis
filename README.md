@@ -87,4 +87,6 @@ Analyses
 - **Numerical_EDA.pdf**  
   Statistics on the all the numerical fields available      
 - **Score_predicted_by_Numerics.pdf**  
-  Do any of the numerics predict score?        
+  Do any of the numerics predict score?   
+- **TextMining.pdf**  
+  Rudimentary text mining.    
