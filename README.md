@@ -82,3 +82,5 @@ Analyses
 
 - **Hashtags_and_Score.pdf**  
   A quick look at hashtag and score distributions    
+- **Numerical_EDA.pdf**  
+  Statistics on the all the numerical fields available      
