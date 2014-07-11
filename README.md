@@ -84,3 +84,5 @@ Analyses
   A quick look at hashtag and score distributions    
 - **Numerical_EDA.pdf**  
   Statistics on the all the numerical fields available      
+- **Score_predicted_by_Numerics.pdf**  
+  Do any of the numerics predict score?        
