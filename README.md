@@ -14,8 +14,9 @@ I. Setup
   - add_twitter_data_bulk.py   
   - twitter_credentials.py 
   
-2. Note: **add_twitter_data_bulk.py** replaces *add_twitter_data.py*  
-         you must download the new version of **twitter_functions.py**
+2. Note for early adopters ...  
+        - **add_twitter_data_bulk.py** replaces *add_twitter_data.py*  
+        - **twitter_functions.py** has been updated  
 
 3. Copy in any .csv files you want to convert from   
    https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing
