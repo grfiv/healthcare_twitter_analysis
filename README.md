@@ -60,7 +60,7 @@ This is version 0.2.
   Don't include junk like DE for Delaware or IN for Indiana
 
 
-This version is pretty robust, so you ought to really be able to make progress. But bugs undoubtedly remain and if you encounter problems I will try to help: george@georgefisher.com
+This version is pretty robust, so you ought to really be able to make progress. But bugs undoubtedly remain and if you encounter problems I will try to help: use the "Issues" tab on the right of the GitHub screen and give me as much documentation as you can so I can reproduce the problem. Thanks.
 
 Utilities
 =================
