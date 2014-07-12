@@ -1,0 +1,38 @@
+Healthcare Twitter Analytics
+========================================================
+### Do any of the numerics predict score?
+```{r,echo=FALSE}
+dir = 'C:/Users/GRFisher4/Documents/Introduction_to_Data_Science/Healthcare_Twitter_Analysis/healthcare_twitter_analysis'
+setwd(dir)
+#source("~/Dropbox/R_functions/stem_plot.R")
+#source("~/Dropbox/R_functions/eda.R")
+source("~/Dropbox/R_functions/lm_utilities.R")
+rm(list = setdiff(ls(), lsf.str())) # remove all but functions
+opar = par(no.readonly=TRUE)
+```
+
+```{r,message=FALSE}
+file = 'Tweets_Celiac_sent.csv'
+data = read.csv(file)
+data=data[c("listed_count","favourites_count","sentiment","retweet_count","score")]
+model1 = lm(score~.,data=data)
+summary(model1)
+```
+
+
+```{r}
+plot(data$listed_count,data$score,main="listed_count has the best p-value\nDoes it predict anything?")
+abline(lm(score~listed_count,data=data),col='red')
+```
+```{r}
+plot(data$sentiment,data$score,main="How about sentiment?")
+abline(lm(score~sentiment,data=data),col='red')
+```
+```{r}
+plot(data$retweet_count,data$score,main="retweet_count?")
+abline(lm(score~retweet_count,data=data),col='red')
+```
+```{r}
+plot(data$favourites_count,data$score,main="favourites_count?")
+abline(lm(score~favourites_count,data=data),col='red')
+```
