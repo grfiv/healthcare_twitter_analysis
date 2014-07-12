@@ -89,4 +89,6 @@ Analyses
 - **Score_predicted_by_Numerics.pdf**  
   Do any of the numerics predict score?   
 - **TextMining.pdf**  
-  Rudimentary text mining.    
+  Word Cloud and dendogram.    
+  - **SentimentAnalysis.pdf**  
+  Comparison of the Breen and AFINN sentiment-scoring systems.  
