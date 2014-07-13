@@ -77,6 +77,25 @@ Utilities
   input:  a csv file that has been processed by add_twitter_data_bulk.py  
   output: a csv file with *sentiment* field added based on AFINN-111.txt  
   use:    %run add_sentiment "Tweets_BleedingDisorders_full.csv"  
+- **find_WordsHashUsers.py**    
+```  
+  Input:  input_filename: the csv file  
+          text_field_name: the name of the column containing the tweet text  
+          list_or_set: do you want every instance ("list") or unique entries ("set")?  
+    
+  Output: lists or sets of  
+            words  
+            hashtags  
+            users mentioned  
+            urls  
+            
+   Usage:  word_list, hash_list, user_list, url_list = \  
+           find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "list")  
+    
+           word_set, hash_set, user_set, url_set =  \  
+           find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "set")
+```             
+
   
 Analyses
 =================  
