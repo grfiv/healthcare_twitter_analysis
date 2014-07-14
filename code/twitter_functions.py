@@ -337,7 +337,7 @@ def parse_tweet_text(tweet_text, AFINN=False):
     raw_words   = content.split()
     words = list()
     for word in raw_words:
-        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","&amp;"]: continue
+        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","&amp;","|"]: continue
         re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
         word = re_pattern.sub(u'\uFFFD', word) 
         if word.encode('utf-8') in ['\xe2\x80\xa6']: continue
