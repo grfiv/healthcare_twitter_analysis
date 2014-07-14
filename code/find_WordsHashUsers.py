@@ -54,7 +54,11 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
            users   = re.findall(r"@(\w+)", content)
            content = re.sub(r"@(\w+)", "", content, 0)
            
-           words   = content.split()
+           raw_words   = content.split()
+           words = list()
+           for word in raw_words:
+               if word in ['.',':','!',',',';',"-","-"]: continue
+               words.append(word)
            
            if list_or_set == "list":
                word_list.extend(words)
