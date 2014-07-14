@@ -337,7 +337,10 @@ def parse_tweet_text(tweet_text, AFINN=False):
     raw_words   = content.split()
     words = list()
     for word in raw_words:
-        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!"]: continue
+        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","&amp;"]: continue
+        re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
+        word = re_pattern.sub(u'\uFFFD', word) 
+        if word.encode('utf-8') in ['\xe2\x80\xa6']: continue
         words.append(word)
         
     if AFINN:
@@ -380,3 +383,60 @@ def parse_AFINN(afinnfile_name):
       else:
         sentiment_words[key.lower()] = int(val)
     return (sentiment_words, sentiment_phrases)
+    
+def twitter_search(twitter_api, q, max_results=200, **kw):
+    
+    # from Chapter 9 - Twitter Cookbook, 
+    # Example 4. Searching for tweets 
+
+    # See https://dev.twitter.com/docs/api/1.1/get/search/tweets and 
+    # https://dev.twitter.com/docs/using-search for details on advanced 
+    # search criteria that may be useful for keyword arguments
+    
+    # See https://dev.twitter.com/docs/api/1.1/get/search/tweets    
+    search_results = twitter_api.search.tweets(q=q, count=100, **kw)
+    
+    statuses = search_results['statuses']
+    
+    # Iterate through batches of results by following the cursor until we
+    # reach the desired number of results, keeping in mind that OAuth users
+    # can "only" make 180 search queries per 15-minute interval. See
+    # https://dev.twitter.com/docs/rate-limiting/1.1/limits
+    # for details. A reasonable number of results is ~1000, although
+    # that number of results may not exist for all queries.
+    
+    # Enforce a reasonable limit
+    max_results = min(1000, max_results)
+    
+    for _ in range(10): # 10*100 = 1000
+        try:
+            next_results = search_results['search_metadata']['next_results']
+        except KeyError, e: # No more results when next_results doesn't exist
+            break
+            
+        # Create a dictionary from next_results, which has the following form:
+        # ?max_id=313519052523986943&q=NCAA&include_entities=1
+        kwargs = dict([ kv.split('=') 
+                        for kv in next_results[1:].split("&") ])
+        
+        search_results = twitter_api.search.tweets(**kwargs)
+        statuses += search_results['statuses']
+        
+        if len(statuses) > max_results: 
+            break
+            
+    return statuses
+    
+def lexical_diversity(set_, list_):
+    """
+    A function for computing lexical diversity
+    """
+    if len(list_) < 1: return 0
+    return 1.0*len(set_)/len(list_) 
+
+def average_words(list_, num_tweets): 
+    """
+    A function for computing the average number of entity per tweet
+    """
+    if num_tweets < 1: return 0
+    return 1.0*len(list_)/num_tweets
