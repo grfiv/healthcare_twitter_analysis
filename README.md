@@ -26,15 +26,21 @@ Twitter text parsing functions
 - **parse_tweet_text**    
 ```  
     Input:  tweet_text: a string with the text of a single tweet
+            AFINN:      (optional) True (must have "AFINN-111.txt" in folder)
     
     Output: lists of:
               words
               hashtags
               users mentioned
               urls
+              
+            (optional) AFINN-111 score 
             
     Usage: from twitter_functions import parse_tweet_text 
+    
            words, hashes, users, urls = parse_tweet_text(tweet_text)
+           
+           words, hashes, users, urls, AFINN_score = parse_tweet_text(tweet_text, AFINN=True)
 ```  
 
 - **find_WordsHashUsers**    
