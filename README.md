@@ -116,7 +116,9 @@ Analyses
 - **TextMining.pdf**  
   Word Cloud and dendogram.    
 - **SentimentAnalysis.pdf**   
-  Comparison of the Breen and AFINN sentiment-scoring systems.  
+  Comparison of the Breen and AFINN sentiment-scoring systems. 
+- **BasicLexicalEDA.pdf**   
+  Frequencies, etc. of words, hashtags, user-mentions and URLs.
   
 Project Description
 ================= 
@@ -129,11 +131,3 @@ The dataset consists of ~2.5 Million tweets, more than 15 Million words. Potenti
 3. Business/ Domain Research: What kind of data is readily available (example - open government data) that could be useful to correlate with disease related tweets. Can we find a collection of hospital names, drug names, important medical hashtags, twitter usernames of healthcare organizations etc. that will aid in this project. What are the business use cases for this data set?     
 
 4. Visualization Research: Finally one of the most critical, what set of visualization would help describe this data? Which libraries / tools could be used? I would recommend everyone to visit the “Collaboaration Space” on coursolve where we are having many interesting discussions. You would get a lot more ideas and probably collaborate on the next steps too.   
-
-Submission The first assignment is a submission of your thoughts – ideas – analysis steps – algorithms that could be useful – tools that you want to explore – visualizations that you would like to draw out – or even a business use case for this dataset.
-  
-Submission deadline for the first assignment - 18th July or 1 week after you enrolled in the project – whichever is later. (There are a few samples uploaded in the google drive for your reference)
-  
-Submission filename – “Your Name – Document Name” (Example : Pratik Mehta - Spam Detection) Submission folder – Under “Resources” tab -> folder “First Assignment”
-  
-Finally, I am going to share a presentation of a “poet’s version” of the final solution. Please note this is just to ignite your imagination and not an expected end product. I hope you can all have a wonderful learning experience and use the knowledge of data science creatively to make a positive difference. 
