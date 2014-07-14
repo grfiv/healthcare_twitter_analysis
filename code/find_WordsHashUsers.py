@@ -10,10 +10,10 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
             users mentioned
             urls
             
-    Usage:  word_list, hash_list, user_list, url_list = \
+    Usage:  word_list, hash_list, user_list, url_list, num_tweets = \
             find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "list")
     
-            word_set, hash_set, user_set, url_set =  \
+            word_set, hash_set, user_set, url_set, num_tweets =  \
             find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "set")
     """
     import csv
@@ -66,6 +66,6 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
                url_set.update(urls)
            
     if list_or_set == "list":
-        return (word_list, hash_list, user_list, url_list)
+        return (word_list, hash_list, user_list, url_list, totallines)
     else:
-        return (word_set, hash_set, user_set, url_set)
+        return (word_set, hash_set, user_set, url_set, totallines)
