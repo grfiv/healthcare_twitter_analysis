@@ -8,7 +8,8 @@ IPython Notebooks
 - **Online Twitter Basics.ipynb**   
   You can use this notebook to sign on to Twitter directly and search for specific topics. It's the Search API not the Firehose but there's plenty of information to browse and even a few minutes ago is pretty current.  
   
-  Look in the *code* directory.
+  Look in the *code* directory.  
+  I recommend starting notebooks with `ipython notebook --pylab=inline` from the command line (on Windows 7, using Enthought's distro; Ubuntu has no `=`, as I recall; I don't know about OS X).
 
 Analyses
 =================  
