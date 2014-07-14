@@ -257,7 +257,6 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
             find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "set")
     """
     import csv
-    import re
     
     if list_or_set != "set" and list_or_set != "list":
         print "list_or_set must be 'list' or 'set', not " + list_or_set
@@ -283,22 +282,8 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
        # ================================
        for linenum, row in enumerate(lines):
         
-           content = row[text_field_name].lower()
-           
-           urls    = re.findall(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", content, re.IGNORECASE)
-           content = re.sub(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", "", content, 0, re.IGNORECASE)
-           
-           hashes  = re.findall(r"#(\w+)", content)
-           content = re.sub(r"#(\w+)", "", content, 0)
-           
-           users   = re.findall(r"@(\w+)", content)
-           content = re.sub(r"@(\w+)", "", content, 0)
-           
-           raw_words   = content.split()
-           words = list()
-           for word in raw_words:
-               if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!"]: continue
-               words.append(word)
+           content                    = row[text_field_name]
+           words, hashes, users, urls = parse_tweet_text(content)
            
            if list_or_set == "list":
                word_list.extend(words)
@@ -315,3 +300,38 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
         return (word_list, hash_list, user_list, url_list, totallines)
     else:
         return (word_set, hash_set, user_set, url_set, totallines)
+        
+def parse_tweet_text(tweet_text):
+    """
+    Input:  tweet_text: a string with the text of a single tweet
+    
+    Output: lists of:
+              words
+              hashtags
+              users mentioned
+              urls
+            
+    Usage: from twitter_functions import parse_tweet_text 
+           words, hashes, users, urls = parse_tweet_text(tweet_text)
+    """
+    import re
+    
+    content = tweet_text.lower()
+           
+    urls    = re.findall(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", content, re.IGNORECASE)
+    content = re.sub(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", "", content, 0, re.IGNORECASE)
+   
+    hashes  = re.findall(r"#(\w+)", content)
+    content = re.sub(r"#(\w+)", "", content, 0)
+   
+    users   = re.findall(r"@(\w+)", content)
+    content = re.sub(r"@(\w+)", "", content, 0)
+    
+    # strip out singleton punctuation
+    raw_words   = content.split()
+    words = list()
+    for word in raw_words:
+        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!"]: continue
+        words.append(word)
+        
+    return (words, hashes, users, urls)
