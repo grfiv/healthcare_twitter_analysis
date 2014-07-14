@@ -3,6 +3,47 @@ Coursolve Healthcare Twitter Analysis project
 
 The initial purpose of this repo was to distribute a program that would query Twitter for the tweets in the files provided by the project and to add more data. It has accomplished that and evolved.
 
+Analyses
+=================  
+
+- **BasicLexicalEDA.pdf**   
+  Frequencies, etc. of words, hashtags, user-mentions and URLs. Word cloud.  
+- **Hashtags_and_Score.pdf**  
+  A quick look at hashtag and score distributions    
+- **Numerical_EDA.pdf**  
+  Statistics on the all the numerical fields available      
+- **Score_predicted_by_Numerics.pdf**  
+  Do any of the numerics predict score?   
+- **TextMining.pdf**  
+  Word Cloud and dendogram.    
+- **SentimentAnalysis.pdf**   
+  Comparison of the Breen and AFINN sentiment-scoring systems. 
+
+  
+Twitter text parsing function  
+=============================  
+
+- **find_WordsHashUsers.py**    
+```  
+  Input:  input_filename: any csv file containing the tweet text  
+          text_field_name: the name of the column containing the tweet text  
+          list_or_set: do you want every instance ("list") or unique entries ("set")?  
+    
+  Output: lists or sets of  
+            words  
+            hashtags  
+            users mentioned  
+            urls  
+            
+   Usage:  from twitter_functions import find_WordsHashUsers
+   
+           word_list, hash_list, user_list, url_list, num_tweets = \  
+           find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "list")  
+    
+           word_set, hash_set, user_set, url_set, num_tweets =  \  
+           find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "set")
+```             
+
 Try a sample file
 =================
 Before trying the instructions below, just download one of the sample .csv files and play around. These files have been filled out with the data available from Twitter and will get you started with analyses and visualizations.  
@@ -83,42 +124,6 @@ Utilities
   output: a csv file with *sentiment* field added based on AFINN-111.txt  
   use:    %run add_sentiment "Tweets_BleedingDisorders_full.csv"  
   ```  
-- **find_WordsHashUsers.py**    
-```  
-  Input:  input_filename: the csv file containing the tweet text  
-          text_field_name: the name of the column containing the tweet text  
-          list_or_set: do you want every instance ("list") or unique entries ("set")?  
-    
-  Output: lists or sets of  
-            words  
-            hashtags  
-            users mentioned  
-            urls  
-            
-   Usage:  word_list, hash_list, user_list, url_list, num_tweets = \  
-           find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "list")  
-    
-           word_set, hash_set, user_set, url_set, num_tweets =  \  
-           find_WordsHashUsers("../files/Tweets_BleedingDisorders.csv", "content", "set")
-```             
-
-  
-Analyses
-=================  
-
-
-- **Hashtags_and_Score.pdf**  
-  A quick look at hashtag and score distributions    
-- **Numerical_EDA.pdf**  
-  Statistics on the all the numerical fields available      
-- **Score_predicted_by_Numerics.pdf**  
-  Do any of the numerics predict score?   
-- **TextMining.pdf**  
-  Word Cloud and dendogram.    
-- **SentimentAnalysis.pdf**   
-  Comparison of the Breen and AFINN sentiment-scoring systems. 
-- **BasicLexicalEDA.pdf**   
-  Frequencies, etc. of words, hashtags, user-mentions and URLs.
   
 Project Description
 ================= 
