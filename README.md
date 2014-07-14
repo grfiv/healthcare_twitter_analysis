@@ -20,10 +20,24 @@ Analyses
   Comparison of the Breen and AFINN sentiment-scoring systems. 
 
   
-Twitter text parsing function  
-=============================  
+Twitter text parsing functions    
+==============================    
 
-- **find_WordsHashUsers.py**    
+- **parse_tweet_text**    
+```  
+    Input:  tweet_text: a string with the text of a single tweet
+    
+    Output: lists of:
+              words
+              hashtags
+              users mentioned
+              urls
+            
+    Usage: from twitter_functions import parse_tweet_text 
+           words, hashes, users, urls = parse_tweet_text(tweet_text)
+```  
+
+- **find_WordsHashUsers**    
 ```  
   Input:  input_filename: any csv file containing the tweet text  
           text_field_name: the name of the column containing the tweet text  
