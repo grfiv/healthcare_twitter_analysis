@@ -301,18 +301,24 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
     else:
         return (word_set, hash_set, user_set, url_set, totallines)
         
-def parse_tweet_text(tweet_text):
+def parse_tweet_text(tweet_text, AFINN=False):
     """
     Input:  tweet_text: a string with the text of a single tweet
+            AFINN:      (optional) True (must have "AFINN-111.txt" in folder)
     
     Output: lists of:
               words
               hashtags
               users mentioned
               urls
+              
+            (optional) AFINN-111 score 
             
     Usage: from twitter_functions import parse_tweet_text 
+    
            words, hashes, users, urls = parse_tweet_text(tweet_text)
+           
+           words, hashes, users, urls, AFINN_score = parse_tweet_text(tweet_text, AFINN=True)
     """
     import re
     
@@ -334,4 +340,43 @@ def parse_tweet_text(tweet_text):
         if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!"]: continue
         words.append(word)
         
+    if AFINN:
+        sentiment_words, sentiment_phrases = parse_AFINN("AFINN-111.txt")
+        AFINN_score = 0
+        # single words
+        for word in words:
+            if word in sentiment_words:
+                AFINN_score += sentiment_words[word.lower()]
+        # phrases
+        for phrase in sentiment_phrases:
+            if phrase in words:
+                AFINN_score += sentiment_phrases[phrase]
+                
+        return (words, hashes, users, urls, AFINN_score)
+        
     return (words, hashes, users, urls)
+    
+def parse_AFINN(afinnfile_name):
+    """
+    Parse the AFIN-111 sentiment file
+    
+    Input:  afinnfile_name: the [path/] file name of AFIN-111.txt
+    
+    Output: dicts of:
+              sentiment_words: score
+              sentiment_phrases: score
+            
+    Usage: from twitter_functions import parse_AFINN
+           sentiment_words, sentiment_phrases = parse_AFINN("AFINN-111.txt")
+    """
+    afinnfile = open(afinnfile_name)
+    
+    sentiment_phrases = {}
+    sentiment_words   = {}
+    for line in afinnfile:
+      key, val  = line.split("\t")        
+      if " " in key:
+        sentiment_phrases[key.lower()] = int(val)
+      else:
+        sentiment_words[key.lower()] = int(val)
+    return (sentiment_words, sentiment_phrases)
