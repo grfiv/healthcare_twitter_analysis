@@ -45,13 +45,15 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
         
            content = row[text_field_name].lower()
            
-           urls = re.findall(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", content, re.IGNORECASE)
+           urls    = re.findall(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", content, re.IGNORECASE)
            content = re.sub(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", "", content, 0, re.IGNORECASE)
+           
            hashes  = re.findall(r"#(\w+)", content)
            content = re.sub(r"#(\w+)", "", content, 0)
+           
            users   = re.findall(r"@(\w+)", content)
            content = re.sub(r"@(\w+)", "", content, 0)
-           content = re.sub(r"\b(https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$]", "", content, 0, re.MULTILINE)
+           
            words   = content.split()
            
            if list_or_set == "list":
