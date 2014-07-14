@@ -6,7 +6,7 @@ The initial purpose of this repo was to distribute a program that would query Tw
 IPython Notebooks
 ================= 
 - **Online Twitter Basics.ipynb**   
-  Once you've gotten your *twitter_credentials.py* file all set up you can use this notebook to sign on to Twitter directly and search for specific topics. It's the Search API not the Firehose but there's plenty of information to browse and even a few minutes ago is pretty current.  
+  You can use this notebook to sign on to Twitter directly and search for specific topics. It's the Search API not the Firehose but there's plenty of information to browse and even a few minutes ago is pretty current.  
   
   Look in the *code* directory.
 
