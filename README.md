@@ -84,14 +84,10 @@ I. Setup
   - add_twitter_data_bulk.py   
   - twitter_credentials.py 
   
-2. Note for early adopters ...  
-        - **add_twitter_data_bulk.py** replaces *add_twitter_data.py*  
-        - **twitter_functions.py** has been updated  
-
-3. Copy in any .csv files you want to convert from   
+2. Copy in any .csv files you want to convert from   
    https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing
 
-4. Modify "twitter_credentials.py" with your personal Twitter credentials  
+3. Modify "twitter_credentials.py" with your personal Twitter credentials  
 ``` 
 def twitter_credentials():  
     """
