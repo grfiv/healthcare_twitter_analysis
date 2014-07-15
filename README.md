@@ -116,14 +116,6 @@ The program will notify you after every batch; the output file is the name of th
 
 The change from serial to batch processing gets much further before running into Twitter's throttle (I processed well over 10,000 lines during testing before I hit it) but it's still there. As before, if any input lines have been processed by that point they WILL be written to the output file. The new code also runs to completion considerably faster.
 
-This is version 0.2.   
-- Batch processing has been added. 
-- POST processing is recommended by Twitter but I don't currently see the need.
-- If anyone wants me to parse out place names, send me a python list via the "Issues" tab to the right of the GitHub screen     
-  `place_names = ["Boston","Hong Kong", ...]`  
-  Don't include junk like DE for Delaware or IN for Indiana
-
-
 This version is pretty robust, so you ought to really be able to make progress. But bugs undoubtedly remain and if you encounter problems I will try to help: use the "Issues" tab on the right of the GitHub screen and give me as much documentation as you can so I can reproduce the problem. Thanks.
   
 Project Description
