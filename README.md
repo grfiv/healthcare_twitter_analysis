@@ -47,7 +47,7 @@ and return the individual words, hashtags, users mentioned, urls and sentiment s
               users mentioned
               urls
               
-            (optional) AFINN-111 score 
+            (optional) sentiment score 
             
     Usage: from twitter_functions import parse_tweet_text 
     
