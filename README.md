@@ -1,7 +1,7 @@
-Coursolve Healthcare Twitter Analysis  
+Healthcare Twitter Analysis  
 ===========================  
 
-The initial purpose of this repo was to distribute a program that would query Twitter for the tweets in the files provided by the project and to add more data. It has accomplished that and evolved.
+The use of social media data and data science to gain insights into health care and medicine.  
 
 IPython Notebooks
 ================= 
