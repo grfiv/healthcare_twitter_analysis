@@ -1,4 +1,4 @@
-Coursolve Healthcare Twitter Analysis project
+Coursolve Healthcare Twitter Analysis  
 ===========================  
 
 The initial purpose of this repo was to distribute a program that would query Twitter for the tweets in the files provided by the project and to add more data. It has accomplished that and evolved.
