@@ -35,7 +35,7 @@ Twitter text parsing functions
 Parse the text of a single tweet, or a concatenated string from many tweets, 
 and return the individual words, hashtags, users mentioned, urls and sentiment score.    
 
-    Input:  tweet_text: a string with the text of a single tweet
+    Input:  tweet_text: a string with the text to be parsed
             AFINN:      (optional) True 
                         Must have "AFINN-111.txt" in your folder  
                         but the function doesn't care what's in it  
