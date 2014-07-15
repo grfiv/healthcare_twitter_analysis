@@ -32,6 +32,9 @@ Twitter text parsing functions
 - **parse_tweet_text**    
   The Online Twitter Basics.ipynb notebook makes extensive use of this function.  
 ```  
+Parse the text of a single tweet, or a concatenated string from many tweets, 
+and return the individual words, hashtags, users mentioned, urls and sentiment score.    
+
     Input:  tweet_text: a string with the text of a single tweet
             AFINN:      (optional) True 
                         Must have "AFINN-111.txt" in your folder  
@@ -55,6 +58,8 @@ Twitter text parsing functions
 
 - **find_WordsHashUsers**    
 ```  
+Process an entire csv file of tweets using the parse_tweet_text function above.  
+
   Input:  input_filename: any csv file containing the tweet text  
           text_field_name: the name of the column containing the tweet text  
           list_or_set: do you want every instance ("list") or unique entries ("set")?  
