@@ -6,7 +6,7 @@ The initial purpose of this repo was to distribute a program that would query Tw
 IPython Notebooks
 ================= 
 - **Online Twitter Basics.ipynb**   
-  You can use this notebook to sign on to Twitter directly and search for specific topics. It's the Search API not the Firehose but there's plenty of information to browse and even a few minutes ago is pretty current.  
+  You can use this notebook to sign on to Twitter directly, search for specific topics, and do analytics on live data.    
   
   Look in the *code* directory.  
   I recommend starting notebooks with `ipython notebook --pylab=inline` from the command line. pylab loads a number of scientific and plotting functions, making it easier to use.  
