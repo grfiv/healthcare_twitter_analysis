@@ -90,10 +90,7 @@ I. Setup
   - add_twitter_data_bulk.py   
   - twitter_credentials.py 
   
-2. Copy in any .csv files you want to convert from   
-   https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing
-
-3. Modify "twitter_credentials.py" with your personal Twitter credentials  
+2. Modify "twitter_credentials.py" with your personal Twitter credentials  
 ``` 
 def twitter_credentials():  
     """
@@ -108,6 +105,9 @@ def twitter_credentials():
     access_token_secret = " your credentials "  
     return (api_key,api_secret,access_token_key,access_token_secret)  
 ```
+
+The files are here [Google Drive on the web](https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing)  
+By installing Google Drive you can access them directly on your computer.  
 
 II. Run
 =======
