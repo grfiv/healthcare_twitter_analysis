@@ -13,9 +13,7 @@ IPython Notebooks
 
 Analyses
 =================  
-
-- **BasicLexicalEDA.pdf**   
-  Frequencies, etc. of words, hashtags, user-mentions and URLs. Word cloud.  
+  
 - **Hashtags_and_Score.pdf**  
   A quick look at hashtag and score distributions    
 - **Numerical_EDA.pdf**  
@@ -34,7 +32,10 @@ Twitter text parsing functions
 - **parse_tweet_text**    
 ```  
     Input:  tweet_text: a string with the text of a single tweet
-            AFINN:      (optional) True (must have "AFINN-111.txt" in folder)
+            AFINN:      (optional) True 
+                        Must have "AFINN-111.txt" in your folder  
+                        but the function doesn't care what's in it  
+                        so you can add your own n-grams.
     
     Output: lists of:
               words
@@ -130,28 +131,6 @@ This is version 0.2.
 
 
 This version is pretty robust, so you ought to really be able to make progress. But bugs undoubtedly remain and if you encounter problems I will try to help: use the "Issues" tab on the right of the GitHub screen and give me as much documentation as you can so I can reproduce the problem. Thanks.
-
-Utilities
-=================
-
-- **hashtag_split.py**  
-```  
-  input:  a csv file that has been processed by add_twitter_data_bulk.py  
-  output: a csv file with one row for every hashtag in a row of the input file  
-  use:    %run hashtag_split "Tweets_BleedingDisorders_full.csv" 
-```    
-- **usermentions_split.py**  
-```  
-  input:  a csv file that has been processed by add_twitter_data_bulk.py  
-  output: a csv file with one row for every *user_mentions* item in a row of the input file  
-  use:    %run usermentions_split "Tweets_BleedingDisorders_full.csv"  
-  ```  
-- **add_sentiment.py**  
-```  
-  input:  a csv file that has been processed by add_twitter_data_bulk.py  
-  output: a csv file with *sentiment* field added based on AFINN-111.txt  
-  use:    %run add_sentiment "Tweets_BleedingDisorders_full.csv"  
-  ```  
   
 Project Description
 ================= 
@@ -163,4 +142,4 @@ The dataset consists of ~2.5 Million tweets, more than 15 Million words. Potenti
 
 3. Business/ Domain Research: What kind of data is readily available (example - open government data) that could be useful to correlate with disease related tweets. Can we find a collection of hospital names, drug names, important medical hashtags, twitter usernames of healthcare organizations etc. that will aid in this project. What are the business use cases for this data set?     
 
-4. Visualization Research: Finally one of the most critical, what set of visualization would help describe this data? Which libraries / tools could be used? I would recommend everyone to visit the “Collaboaration Space” on coursolve where we are having many interesting discussions. You would get a lot more ideas and probably collaborate on the next steps too.   
+4. Visualization Research: Finally one of the most critical, what set of visualization would help describe this data? Which libraries / tools could be used? I would recommend everyone to visit the “Collaboration Space” on Coursolve where we are having many interesting discussions. You would get a lot more ideas and probably collaborate on the next steps too.   
