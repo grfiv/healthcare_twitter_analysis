@@ -30,6 +30,7 @@ Twitter text parsing functions
 ==============================    
 
 - **parse_tweet_text**    
+  The Online Twitter Basics.ipynb notebook makes extensive use of this function.  
 ```  
     Input:  tweet_text: a string with the text of a single tweet
             AFINN:      (optional) True 
