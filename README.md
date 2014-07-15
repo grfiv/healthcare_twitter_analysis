@@ -77,8 +77,6 @@ Try a sample file
 =================
 Before trying the instructions below, just download one of the sample .csv files and play around. These files have been filled out with the data available from Twitter and will get you started with analyses and visualizations.  
 
-In the Analyses section, below, are a few examples of using these datasets.  
-
 I. Setup
 ========
 1. Pull these files onto your computer 
