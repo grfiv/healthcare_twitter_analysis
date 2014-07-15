@@ -324,14 +324,20 @@ def parse_tweet_text(tweet_text, AFINN=False):
     
     content = tweet_text.lower()
            
+    # collect and remove URLs
     urls    = re.findall(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", content, re.IGNORECASE)
     content = re.sub(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", "", content, 0, re.IGNORECASE)
    
+    # collect and remove hashtags
     hashes  = re.findall(r"#(\w+)", content)
     content = re.sub(r"#(\w+)", "", content, 0)
    
+    # collect and remove users mentioned
     users   = re.findall(r"@(\w+)", content)
     content = re.sub(r"@(\w+)", "", content, 0)
+    
+    # strip out extra whitespace in the remaining text
+    content = re.sub(r"\s{2,}", " ", content)
     
     # strip out singleton punctuation
     raw_words   = content.split()
@@ -339,7 +345,7 @@ def parse_tweet_text(tweet_text, AFINN=False):
     for word in raw_words:
         if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","&amp;","|"]: continue
         re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
-        word = re_pattern.sub(u'\uFFFD', word) 
+        word       = re_pattern.sub(u'\uFFFD', word) 
         if word.encode('utf-8') in ['\xe2\x80\xa6']: continue
         words.append(word)
         
@@ -352,7 +358,7 @@ def parse_tweet_text(tweet_text, AFINN=False):
                 AFINN_score += sentiment_words[word.lower()]
         # phrases
         for phrase in sentiment_phrases:
-            if phrase in words:
+            if phrase in content:
                 AFINN_score += sentiment_phrases[phrase]
                 
         return (words, hashes, users, urls, AFINN_score)
@@ -372,6 +378,7 @@ def parse_AFINN(afinnfile_name):
     Usage: from twitter_functions import parse_AFINN
            sentiment_words, sentiment_phrases = parse_AFINN("AFINN-111.txt")
     """
+    import re
     afinnfile = open(afinnfile_name)
     
     sentiment_phrases = {}
@@ -379,6 +386,7 @@ def parse_AFINN(afinnfile_name):
     for line in afinnfile:
       key, val  = line.split("\t")        
       if " " in key:
+        key = re.sub(r"\s{2,}", " ", key) # strip extra whitespace
         sentiment_phrases[key.lower()] = int(val)
       else:
         sentiment_words[key.lower()] = int(val)
