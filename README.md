@@ -30,13 +30,13 @@ Add twitter data to the files
 The 897 files for this project are located on Google Drive. Install the app and you will have direct access to them.  
 [Google Drive files on the web](https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing)    
 
-However, these files have very little of the Twitter data besides the ['text'] field (which is called "content").  
+However, these files have none of the Twitter data besides the ['text'] field (which is called "content").  
 
-The program **create_bulkfile.py** in the *files* folder of [the GitHub repo](https://github.com/grfiv/healthcare_twitter_analysis) reads in a text file containing a list of fully-qualified file names and produces an output file with the additional Twitter data fields included. 
+The program `create_bulkfile.py` in the *code* folder of [the GitHub repo](https://github.com/grfiv/healthcare_twitter_analysis) reads in a text file containing a list of fully-qualified file names and produces an output file with the additional Twitter data fields included. 
 
 A list of the column names of the output file is in the *files* folder: `list_of_variable_names_in_the_processed_file.txt`  
 
-I have used this program to create files of subsets of the data ... all the files referencing Endocrine, for example to do research specifically on that disease category.  
+I have used this program to create files of subsets of the data ... all the files referencing Endocrine, for example, to do research specifically on that disease category.  
 
 Requirements:  
 1. A file named `AFINN-111.txt` must be in the same folder as the program. It contains a list of n-grams with their sentiment scores. If you don't like what's there, you can add your own as long as you retain the tab-delimited format.   
@@ -66,8 +66,8 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
-           ending_at           if 0   process all files following the "starting_at" line in "list_of_filenames"
-                               if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
+           ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
+                               if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"  
            
     Output: a csv file named "bigtweet_filexxx.csv", where xxx is the "starting_at" number
         
