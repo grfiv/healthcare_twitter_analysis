@@ -32,6 +32,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     import re
     import time
     import sys
+    import six
     import datetime
     from twitter_functions import lookup_multiple_tweets
     from twitter_functions import parse_AFINN
@@ -121,9 +122,15 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
                 # accumulate a batch of rows from the input file
                 # ==============================================
                 tweet_id  = row['url'].split("/")[-1]
-                row['id'] = tweet_id
-                bulk_list.append(row)
-                list_of_tweet_ids.append(tweet_id)
+                # make sure tweet_id is actually numeric
+                if re.match(r"^\d+", tweet_id):
+                    # Successful match at the start of the string
+                    row['id'] = tweet_id
+                    bulk_list.append(row)
+                    list_of_tweet_ids.append(tweet_id)
+                else:
+                    print "tweet url terminated with non-numeric in line %d"%(linenum+1)
+                    print row['url']
                 
                 # if batch-size reached, process the batch
                 if len(bulk_list) >= step or (linenum+1) >= totallines:
@@ -143,8 +150,8 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
                             break
                         except ValueError, e:
                             print "\nTwitter returned invalid json"
-                            print "after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
                             print e
+                            print "after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
                             bulk_list = []
                             invalid_json = True
                             break
@@ -192,7 +199,15 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
                     for line in bulk_list:
                         if line['id'] not in tweet_id_list:
                             skip_counter+=1
-                            print "%d skipped id %d"%(skip_counter, int(line['id']))
+                            # check the entire line['id'] is numeric
+                            if re.match(r"^\d+", line['id']):
+                                # yes
+                                print "%d skipped id %d"%(skip_counter, int(line['id']))
+                            else:
+                                # no
+                                print skip_counter
+                                print "line['id'] is not all numeric"
+                                print line['id']                               
                             continue
                             
                         tweetdata = tweetdata_list[tweet_id_dict[line['id']]]
