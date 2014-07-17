@@ -26,6 +26,11 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     Output: a csv file named "bigtweet_filexxx.csv", where xxx is the "starting_at" number
         
     Usage: %run create_bulkfile.py "filename_list.csv" 1 0
+    
+    A message like "263 skipped id 463811853097787392" indicates that Twitter did not return data
+    for a tweet with the id of 463811853097787392 and this is the 263rd instance of this. 
+    As a result of this and other less-common errors the output file will have fewer rows than 
+    the total rows in the input files.
     """
     import csv
     import json
@@ -83,6 +88,8 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
             print "Skipping %d of %d %s"%(file_counter, number_of_files, input_filename)
             file_counter+=1
             continue  
+            
+        if ending_at != 0: number_of_files = ending_at
             
         # find the shortened file name
         #
