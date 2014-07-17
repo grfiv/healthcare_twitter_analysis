@@ -52,7 +52,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
         ... Twitter Data\June\Cardiovasucular\Tweets_AFib.csv  
         
         the code is commented with a simple solution you can implement to allow you to have
-        any arbitrary fully-qualified filename, for any operating system 
+        any arbitrary fully-qualified filename, for any operating system
         
     - processes each row of each file in the file list, 
       making batched calls to Twitter to retrieve the data for each tweet
@@ -67,11 +67,16 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
            ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
-                               if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"  
+                               if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
            
     Output: a csv file named "bigtweet_filexxx.csv", where xxx is the "starting_at" number
         
     Usage: %run create_bulkfile.py "filename_list.csv" 1 0
+    
+    A message like "263 skipped id 463811853097787392" indicates that Twitter did not return data
+    for a tweet with the id of 463811853097787392 and this is the 263rd instance of this. 
+    As a result of this and other less-common errors the output file will have fewer rows than 
+    the total rows in the input files.
     """
 ```   
 Notify me through the Issues tab of GitHub if you have any problems with the program.  
