@@ -1,14 +1,23 @@
-content	Twitter's 'text' field
-file_counter	ordinal in the input file
-firstpost_date	
-hashtags	tilde-delimed list of hashtags
-id	tweet id
+Columns contained in the original file
+======================================
+content
+firstpost_date
 score	Topsy's influence calculation.  http://gigaom.com/2010/07/15/cool-tool-topsy-finds-most-influential-tweeters-on-any-topic/
-sentiment	calculated with AFINN-111.txt
-short_file_name	name of the input file
-trackback_author_nick	screen name
+trackback_author_nick	
 trackback_author_url	
-trackback_permalink	
+trackback_permalink
+url
+
+Columns added by create_bulkfile.py
+===================================
+file_counter           the row number of the file in "list_of_filenames"
+short_file_name	       an abbreviated version of the name of the input file
+
+id                     tweet id	
+hashtags               tilde-delimited list of hashtags
+user_mentions          tilde-delimited list of users mentioned
+sentiment              calculated with AFINN-111.txt
+
 tweet_coordinates	
 tweet_favorite_count	
 tweet_favorited	
@@ -17,7 +26,7 @@ tweet_in_reply_to_screen_name
 tweet_place	
 tweet_retweet_count	
 tweet_retweeted	
-url	
+	
 user_description	
 user_favourites_count	
 user_followers_count	
@@ -26,7 +35,6 @@ user_geo_enabled
 user_lang	
 user_listed_count	
 user_location	
-user_mentions	
 user_name	
 user_screen_name	
 user_statuses_count	
