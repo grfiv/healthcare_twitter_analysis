@@ -1,0 +1,35 @@
+content	Twitter's 'text' field
+file_counter	ordinal in the input file
+firstpost_date	
+hashtags	tilde-delimed list of hashtags
+id	tweet id
+score	Topsy's influence calculation.  http://gigaom.com/2010/07/15/cool-tool-topsy-finds-most-influential-tweeters-on-any-topic/
+sentiment	calculated with AFINN-111.txt
+short_file_name	name of the input file
+trackback_author_nick	screen name
+trackback_author_url	
+trackback_permalink	
+tweet_coordinates	
+tweet_favorite_count	
+tweet_favorited	
+tweet_geo	
+tweet_in_reply_to_screen_name	
+tweet_place	
+tweet_retweet_count	
+tweet_retweeted	
+url	
+user_description	
+user_favourites_count	
+user_followers_count	
+user_friends_count	
+user_geo_enabled	
+user_lang	
+user_listed_count	
+user_location	
+user_mentions	
+user_name	
+user_screen_name	
+user_statuses_count	
+user_time_zone	
+user_utc_offset	
+user_verified	
