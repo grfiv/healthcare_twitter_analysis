@@ -20,7 +20,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
-           ending_at           if 0   process all files following the "starting_at" line in "list_of_filenames"
+           ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
                                if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
            
     Output: a csv file named "bigtweet_filexxx.csv", where xxx is the "starting_at" number
@@ -200,9 +200,8 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
                             skip_counter+=1
                             print "id mismatch, skipping %d"%(skip_counter)
                             print "line  id %s"%(str(line['id']))
-                            print #tweet id %s"%(str(tweetdata['id']))
+                            print "tweet id %s"%(str(tweetdata['id']))
                             continue
-                        batch_process_count+=1
 
                         # parse Twitter's response
                         line["file_counter"]    = file_counter
@@ -211,6 +210,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
                         line['sentiment'] = find_sentiment(tweetdata, sentiment_words, sentiment_phrases)
                         
                         output_dict.append(line)
+                        batch_process_count+=1
                         
                        
                     print "Rows processed: " + str(len(output_dict)) 
