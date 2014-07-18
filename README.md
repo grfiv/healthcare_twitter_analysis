@@ -14,16 +14,7 @@ IPython Notebooks
 Analyses
 =================  
   
-- **Hashtags_and_Score.pdf**  
-  Hashtag and score distributions    
-- **Numerical_EDA.pdf**  
-  Statistics on the all the numerical fields available      
-- **Score_predicted_by_Numerics.pdf**  
-  Do any of the numerics predict score?   
-- **TextMining.pdf**  
-  Word Cloud and dendogram.    
-- **SentimentAnalysis.pdf**   
-  Comparison of the Breen and AFINN sentiment-scoring systems.   
+See the `Analyses` folder for basic text-mining analyses of the data.  
 
 Add twitter data to the files
 =================
