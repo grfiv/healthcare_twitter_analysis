@@ -114,7 +114,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     the total rows in the input files.
     """
 ```   
-Notify me through the Issues tab of GitHub if you have any problems with the program.  
+Notify me through the Issues tab of GitHub if you have any problems with these programs.  
 
 Twitter text parsing functions    
 ==============================    
