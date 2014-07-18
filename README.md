@@ -23,15 +23,59 @@ The 897 files for this project are located on Google Drive. Install the app and 
 
 However, these files have none of the Twitter data besides the ['text'] field (which is called "content").  
 
-The program `create_bulkfile.py` in the *code* folder of [the GitHub repo](https://github.com/grfiv/healthcare_twitter_analysis) reads in a text file containing a list of fully-qualified file names and produces an output file with the additional Twitter data fields included. 
+The repo ([GitHub](https://github.com/grfiv/healthcare_twitter_analysis)) contains two python programs, in the *code* folder, to solve this problem:  
+Both read in a text file containing a list of fully-qualified file names to process ...    
+1. `create_jsonfile.py` produces a json output file with the exact Twitter json for each tweet.   
+2. `create_bulkfile.py` produces a csv output file with additional Twitter data fields included. See `list_of_variable_names_in_the_processed_file.txt` in the *files* folder for a list of columns.  
 
-A list of the column names of the output file is in the *files* folder: `list_of_variable_names_in_the_processed_file.txt`  
+I have used both of these programs to create files of subsets of the data ... all the files referencing Endocrine, for example, to do research specifically on that disease category. See the *analyses* folder.  
 
-I have used this program to create files of subsets of the data ... all the files referencing Endocrine, for example, to do research specifically on that disease category.  
+**create_jsonfile.py** 
+```  
+def create_jsonfile(list_of_filenames, starting_at=1, ending_at=0):
+    """
+    - reads in a list of fully-qualified filenames from "list_of_filenames"
+        
+    - processes each row of each file in the file list, 
+      making batched calls to Twitter to retrieve the data for each tweet
+    
+    - after every 13,500 rows, or whenever there is a threshold-exceeded error
+      the output_file is written and the program goes to sleep for 15 minutes.
+      
+    Input: list_of_filenames   a text file with fully-qualified file names
+           starting_at         the line number of "list_of_filenames" where processing should start
+           ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
+                               if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
+           
+    Output: a text file named "bigtweet_filexxx.json", where xxx is the "starting_at" number
+        
+    Usage: %run create_jsonfile.py "filename_list.csv" 1 0
+    
+    To use the output file in python:
+import json
+tweet_file = open("bigtweet_file003.json", "r")
+for line in tweet_file:
+    tweet = json.loads(str(line))
+    if tweet['retweet_count'] > 4:
+        print
+        print tweet['retweet_count']
+        print tweet['text']
 
-Requirements:  
-1. A file named `AFINN-111.txt` must be in the same folder as the program. It contains a list of n-grams with their sentiment scores. If you don't like what's there, you can add your own as long as you retain the tab-delimited format.   
-2. You must modify `twitter_credentials.py` to contain your own credentials.   
+        
+    To use the output file in R:
+library(rjson)
+conn   = file("bigtweet_file003.json", open="r")
+tweets = readLines(conn)
+for (i in 1:length(tweets)){
+   tweet = fromJSON(tweets[i])
+   if (tweet$retweet_count > 4) {
+        cat(sprintf("\n%d\n%s", tweet$retweet_count, tweet$text))
+    }
+}
+close(conn)
+    """ 
+```    
+
 
 **create_bulkfile.py**  
 ```  
