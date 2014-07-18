@@ -28,7 +28,7 @@ Both read in a text file containing a list of fully-qualified file names to proc
 1. `create_jsonfile.py` produces a json output file with the exact Twitter json for each tweet.   
 2. `create_bulkfile.py` produces a csv output file with additional Twitter data fields included. See `list_of_variable_names_in_the_processed_file.txt` in the `files` folder for a list of columns.  
 
-I have used both of these programs to create files of subsets of the data ... all the files referencing Endocrine, for example, to do research specifically on that disease category. See the *analyses* folder.  
+I have used both of these programs to create files of subsets of the data ... all the files referencing Endocrine, for example, to do research specifically on that disease category. See the `analyses` folder.  
 
 **create_jsonfile.py** 
 ```  
