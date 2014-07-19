@@ -70,6 +70,9 @@ for (i in 1:length(tweet_list)){
         cat(sprintf("\n\n%d %s\n%s",tweet_list[[i]]$retweet_count, tweet_list[[i]]$user$name, tweet_list[[i]]$text))
     }
 }
+## convert to twitteR structure
+library(twitteR)
+tweets = import_statuses(raw_data=tweet_list)
     """ 
 ```    
 
