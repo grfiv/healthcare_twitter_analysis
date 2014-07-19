@@ -64,15 +64,11 @@ for line in tweet_file:
         
     To use the output file in R:
 library(rjson)
-conn   = file("bigtweet_file003.json", open="r")
-tweets = readLines(conn)
-for (i in 1:length(tweets)){
-   tweet = fromJSON(tweets[i])
-   if (tweet$retweet_count > 4) {
-        cat(sprintf("\n%d\n%s", tweet$retweet_count, tweet$text))
-    }
-}
-close(conn)
+file_path  = ("../files/bigtweet_file003.json")
+tweet_list = fromJSON(sprintf("[%s]", paste(readLines(file_path),collapse=",")))
+
+# this gives you the name of the user who sent the first tweet in the list
+tweet_list[[1]]$user$name 
     """ 
 ```    
 
