@@ -35,9 +35,13 @@ user_geo_enabled
 user_lang	
 user_listed_count	
 user_location	
+user_location_coordinates  
+user_location_placename  
 user_name	
 user_screen_name	
 user_statuses_count	
 user_time_zone	
+user_time_zone_coordinates  
+user_time_zone_placename  
 user_utc_offset	
 user_verified	
