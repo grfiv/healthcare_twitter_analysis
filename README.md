@@ -52,6 +52,7 @@ def create_jsonfile(list_of_filenames, starting_at=1, ending_at=0):
     Usage: %run create_jsonfile.py "filename_list.csv" 1 0
     
     To use the output file in python:
+    =================================
 import json
 tweet_file = open("../files/bigtweet_file003.json", "r")
 for line in tweet_file:
@@ -61,6 +62,7 @@ for line in tweet_file:
 
         
     To use the output file in R:
+    ============================
 library(rjson)
 file_path  = ("../files/bigtweet_file003.json")
 tweet_list = fromJSON(sprintf("[%s]", paste(readLines(file_path),collapse=",")))
@@ -69,11 +71,31 @@ for (i in 1:length(tweet_list)){
     if (tweet_list[[i]]$retweet_count > 100){
         cat(sprintf("\n\n%d %s\n%s",tweet_list[[i]]$retweet_count, tweet_list[[i]]$user$name, tweet_list[[i]]$text))
     }
-}
+} 
 ## convert to twitteR structure
 library(twitteR)
 tweets = import_statuses(raw_data=tweet_list)
-    """ 
+
+   To store in MongoDB using python:
+   =================================
+# create a python list of each tweet
+import json
+tweet_file = open("../files/bigtweet_file003.json", "r")
+tweet_list = [json.loads(str(line)) for line in tweet_file]
+
+# store the list in MongoDB
+from pymongo import MongoClient
+client = MongoClient()
+db     = client['file003']
+posts  = db.posts
+#db.posts.remove( { } ) # delete if previously created
+
+posts.insert(tweet_list)
+
+# same example as above
+for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
+    print "%d %s\n%s"%(result['retweet_count'],result['user']['name'],result['text'])
+    """
 ```    
 
 
