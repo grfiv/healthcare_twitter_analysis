@@ -264,6 +264,7 @@ def parse_tweet_json(line, tweetdata):
     
     Documentation https://dev.twitter.com/docs
     """
+
     line["tweet_coordinates"]  = str(tweetdata["coordinates"])
     line["tweet_favorited"]    = str(tweetdata["favorited"])
     if tweetdata["entities"] is not None:
@@ -306,6 +307,32 @@ def parse_tweet_json(line, tweetdata):
         line["user_statuses_count"]   = str(tweetdata["user"]["statuses_count"])
         line["user_verified"]         = str(tweetdata["user"]["verified"])
         line["user_description"]      = tweetdata["user"]["description"].encode('utf-8')
+        
+    # geo location data
+    from pygeocoder import Geocoder
+    try:
+        geo_results = Geocoder.geocode(line["user_time_zone"])
+    except:
+        geo_results = "error"
+    line["user_time_zone_coordinates"] = ""
+    line["user_time_zone_placename"]   = ""
+    if geo_results != "error":
+        line["user_time_zone_coordinates"] = geo_results.coordinates
+        for foo in geo_results:
+            line["user_time_zone_placename"] = foo
+            break
+    try:
+        geo_results = Geocoder.geocode(line["user_location"])
+    except:
+        geo_results = "error"
+    line["user_location_coordinates"] = ""
+    line["user_location_placename"]   = ""
+    if geo_results != "error":
+        line["user_location_coordinates"] = geo_results.coordinates
+        for foo in geo_results:
+            line["user_location_placename"] = foo
+            break
+    
     return line
     
 def find_sentiment(tweet_data, sentiment_words, sentiment_phrases):
