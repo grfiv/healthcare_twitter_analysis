@@ -26,7 +26,7 @@ However, these files have none of the Twitter data besides the ['text'] field (w
 The repo ([GitHub](https://github.com/grfiv/healthcare_twitter_analysis)) contains two python programs, in the `code` folder, to solve this problem:  
 Both read in a text file containing a list of fully-qualified file names to process ...    
 1. `create_jsonfile.py` produces a json output file with the exact Twitter json for each tweet.   
-2. `create_bulkfile.py` produces a csv output file with additional Twitter data fields included. See `list_of_variable_names_in_the_processed_file.txt` in the `files` folder for a list of columns.  
+2. `create_bulkfile.py` produces a csv output file with additional Twitter data fields included plus calculated fields like sentiment from AFINN-111 and place name & coordinates from the Google Geocoding API. See `list_of_variable_names_in_the_processed_file.txt` in the `files` folder for a list of columns.  
 
 I have used both of these programs to create files of subsets of the data ... all the files referencing Endocrine, for example, to do research specifically on that disease category. See the `analyses` folder.  
 
