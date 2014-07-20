@@ -9,7 +9,6 @@ IPython Notebooks
   Sign on to Twitter directly, live, search for specific topics, and do analytics on live data.    
   
   Look in the `code` directory.  
-  I recommend starting notebooks with `ipython notebook --pylab=inline` from the command line. pylab loads a number of scientific and plotting functions, making it easier to use.  
 
 Analyses
 =================  
