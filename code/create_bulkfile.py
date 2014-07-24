@@ -16,7 +16,9 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
       
     Note: AFINN-111.txt must be in the same folder
           you can use it as is or include your own n-grams
-          the 'sentiment' field is the sum of the scores of all the n-grams found
+          the 'sentiment' field is the sum of the scores of all the n-grams found  
+          
+    Note: Requires pygeocoder
     
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
@@ -264,8 +266,20 @@ def parse_tweet_json(line, tweetdata):
     
     Documentation https://dev.twitter.com/docs
     """
+    import time
+    import datetime
 
     line["tweet_coordinates"]  = str(tweetdata["coordinates"])
+    # unix timestamp...better for sorting, searching, indexing
+    line["tweet_timestamp"] = ""
+    try:
+        line["tweet_timestamp"] = str(time.mktime(datetime.datetime.strptime(line['firstpost_date'], "%m/%d/%Y").timetuple()))
+    except:
+        try:
+            line["tweet_timestamp"] = str(time.mktime(datetime.datetime.strptime(line['firstpost_date'], "%m/%d/%y").timetuple()))
+        except:
+            pass
+    
     line["tweet_favorited"]    = str(tweetdata["favorited"])
     if tweetdata["entities"] is not None:
          if tweetdata["entities"]["hashtags"] is not None:
