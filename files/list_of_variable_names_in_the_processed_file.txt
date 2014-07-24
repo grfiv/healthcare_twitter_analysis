@@ -26,6 +26,7 @@ tweet_in_reply_to_screen_name
 tweet_place	
 tweet_retweet_count	
 tweet_retweeted	
+tweet_timestamp        unix timestamp from 'firstpost_date'
 	
 user_description	
 user_favourites_count	
