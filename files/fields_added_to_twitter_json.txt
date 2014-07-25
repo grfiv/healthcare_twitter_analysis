@@ -5,63 +5,53 @@ get_twitter_json.py augments the Twitter json with the following fields
 
 "user": {
 	
-    "location": "Camp Hill, PA",	            # given
+    "location": "Perth, Western Australia",     	            # given
 
-    "location_geoinfo": {
-	                    # derived		
-        "display_name": "Camp Hill, Cumberland County, Pennsylvania, United States of America",
-
-        "importance": 0.74191911145088,
-			
-        "place_id": "97989575",
-			
-        "lon": "-76.9199742",
-			
-        "lat": "40.2398118",
-			
-        "osm_type": "relation",
-			
-        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright",
-			
-        "osm_id": "187152",
-			
-        "boundingbox": ["40.229742",
-			
-            "40.259378",
-			
-           "-76.944473",
-			
-           "-76.907115"],
-			
-        "type": "administrative",
-			
-        "class": "boundary",
-			
-        "icon": "http://open.mapquestapi.com/nominatim/v1/images/mapicons/poi_boundary_administrative.p.20.png"
-		
-    }
-}
+    "location_geoinfo": {                                       # derived
+			"sideOfStreet": "N",
+			"linkId": "282859405",
+			"mapUrl": "http://www.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd|luur2008n9,8l=o5-9a1nhu&type=map&size=225,160&pois=purple-1,-31.9527121,115.8604796,0,0,|&center=-31.9527121,115.8604796&zoom=12&rand=1679740167",
+			"displayLatLng": {
+				"lat": -31.952712,
+				"lng": 115.86048
+			},
+			"adminArea6Type": "Neighborhood",
+			"adminArea3Type": "State",
+			"dragPoint": false,
+			"geocodeQualityCode": "A5XAX",
+			"adminArea1": "AU",
+			"geocodeQuality": "CITY",
+			"adminArea3": "Western Australia",
+			"adminArea4": "",
+			"adminArea5": "Perth",
+			"adminArea6": "",
+			"postalCode": "",
+			"type": "s",
+			"adminArea1Type": "Country",
+			"adminArea5Type": "City",
+			"latLng": {
+				"lat": -31.952712,
+				"lng": 115.86048
+			},
+			"adminArea4Type": "County",
+			"unknownInput": "",
+			"street": ""
+		},
 
 "topsy": {
 				
     "firstpost_date": "01/06/14",
-
     "timestamp": 1388984400.0,	       # unix timestamp for "firstpost_date" field	
+    
     "url": "http://twitter.com/primary_immune/status/420090415086198784",
- 	
     "score": 7.2846317,
-		
     "trackback_author_nick": "primary_immune",
-		
     "trackback_author_url": "http://twitter.com/primary_immune",
-		
     "trackback_permalink": "http://twitter.com/Primary_Immune/status/420090415086198784",
 
 
-    "file_counter": 2,
-		# info about get_twitter_json.py process
+    "file_counter": 2,                 # info about get_twitter_json.py process
     "short_file_name": "Jan to May\\Blood\\Tweets_BloodCancer.csv"
-	
 }
 
 

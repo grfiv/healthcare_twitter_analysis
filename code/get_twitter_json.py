@@ -2,30 +2,46 @@ def get_twitter_json(list_of_filenames, starting_at=1, ending_at=0, geocode=True
     """
     1) reads in a list of fully-qualified filenames from "list_of_filenames"
         
-    2) processes each row of each file in the file list, 
+    2) processes each row of each topsy file in the "list_of_filenames", 
        making batched calls to Twitter to retrieve the json for each tweet
-           adding the data from topsy file such as "score"
+           adding the data from the topsy file such as "score"
            plus unix timestamps for the topsy firstpost_date field and Twitter's created_at field
            plus coordinate and place name data for Twitter's user location field
     
     - after every 13,500 rows, or whenever there is a threshold-exceeded error
       the program goes to sleep for 15 minutes.
       
+      On my quad i7 4G Windows 7 64-bit machine, with my Comcast Internet connection,
+      I process about 1,700 tweets per minute. The sleep time for the Twitter threshold 
+      obviously increases the elapsed time, yielding roughly 
+      8 + 15 = 23 minutes elapsed time per 13,500 tweets.
+      For 2,500,000 tweets, that's 2,500,000/13,500*23 = 4259 minutes/71 hours/3 days
+      elapsed time for all of the tweets in the project.
+    
+    Note: a file named twitter_credentials.py must be in the folder with the code
+          see the repo: it contains your Twitter credentials
+    
+    Note: if geocode=True a file named mapquest_key.txt must be in the folder with the code
+          get a MapQuest key here: http://developer.mapquest.com/
+          
+    Note: if ["user"] is embedded in ["retweeted_status"] I do not get the location info
+          This, plus problems like blank or incomprehensible ['location'] fields 
+          puts the geo-tagging rate at 75%.
+      
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
            ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
                                if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
-           geocode             if True, calls are made to the MapQuest Open Nominatim Search Service for coordinate and place name data
-                               if False, these call are not made
-                                 this function dramatically slows down the overall process; if you don't need
-                                 location info, you'll be happier with geocode=False
+           geocode             if True, batched requests are made to the MapQuest Developers API for coordinate and place name data
+                               if False, these call are not made and no geo info is added
+                                 
            
     Output: a text file named "bigtweet_filexxx.json", where xxx is the "starting_at" number
         
-    Usage: %run get_twitter_json.py "filename_list.csv" 1 0
+    Usage: %run get_twitter_json.py "filename_list.csv" 2 2
     
     A message like "6 skipped id 448176144668721152" means that Twitter failed to return any data about 
-    a tweet with id 448... and that this is the 6th instance of this.
+    a tweet with id 448... and that this is the 6th instance of this. Fewer than 1% are skipped.
     
     To use the output file in python:
     =================================
@@ -76,7 +92,7 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     import re
     import time, datetime
     import sys, os
-    import urllib2
+    import urllib2,urllib
     from twitter_functions import lookup_multiple_tweets
     
     # convert input parameter strings to integer
@@ -107,9 +123,16 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     # https://dev.twitter.com/docs/rate-limiting/1.1/limits
     sleep_batch       = 13500 # we sleep after this many lines processed
     sleep_batch_rows  = 0     # the number of lines we've processes since the last sleep
+    
+    # MapQuest Developer API documentation: http://developer.mapquest.com/
     Geocoder_count    = 0     # how many records did not get Geocoding
-    # MapQuest Nominatim documentation: http://open.mapquestapi.com/nominatim/
-    mapq_url          = 'http://open.mapquestapi.com/nominatim/v1/search.php?format=json&limit=1&addressdetails=0&json_callback=renderBasicSearchNarrative&q='
+    if geocode:
+        f = open('mapquest_key.txt','r')
+        key = f.readline()
+        f.close()
+        mapq_url = 'http://www.mapquestapi.com/geocoding/v1/batch?key='
+        mapq_url = mapq_url + key + '&outFormat=json&maxResults=1&callback=renderBatch'
+
     
     number_of_files   = len(filename_list) # how many files in the list
     file_counter      = 1                  # which one is this one
@@ -227,11 +250,23 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                     tweet_id_dict = {}
                     tweet_id_list = []
                     
+                    tweet_loc_dict = {}
+                    tweet_loc_list = []
+                    
                     # save every id in tweetdata_list and its position
                     for i in range(len(tweetdata_list)):
                         id = str(tweetdata_list[i]['id'])
                         tweet_id_dict[id] = i
                         tweet_id_list.append(id)
+                        
+                        # save every location and its position
+                        if tweetdata_list[i]['user']['location'] is not None and tweetdata_list[i]['user']['location'].strip() != "":
+                            try:
+                                loc = str(tweetdata_list[i]['user']['location'])
+                                tweet_loc_dict[loc] = i
+                                tweet_loc_list.append(loc)
+                            except:
+                                pass
                         
                     # pull each of the lines and its corresponding Twitter response
                     for line in bulk_list:
@@ -256,9 +291,9 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                             print "tweet id %s"%(str(tweetdata['id']))
                             continue
                             
-                        # =========================================
-                        # add new fields to Twitter's json response
-                        # =========================================
+                        # ===========================================
+                        # add Topsy fields to Twitter's json response
+                        # ===========================================
                             
                         # add a timestamp for 'created_at'
                         # time.ctime(tweet['timestamp']) # will decode this field
@@ -288,30 +323,42 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                         tweetdata_list[tweet_id_dict[line['id']]]['topsy']['file_counter']          = file_counter
                         tweetdata_list[tweet_id_dict[line['id']]]['topsy']['short_file_name']       = short_file_name
                         
-                        # add coordinates & place name for user location
-                        if geocode:
-                            tweetdata_list[tweet_id_dict[line['id']]]["user"]["location_geoinfo"] = {}
-                            if tweetdata_list[tweet_id_dict[line['id']]]["user"]["location"] is not None:
-                                location = tweetdata_list[tweet_id_dict[line['id']]]["user"]["location"]
-                                location  = re.sub(r"[^\w\s]", " ", location) # remove punctuation
-                                location  = re.sub("[ ]{1,}", "+", location)  # replace blanks with +
-                                response  = urllib2.urlopen(mapq_url + location)
-                                mapq_resp = response.read()
-                                loc_json = ''
-                                urls = re.findall("{.*?}", mapq_resp)
-                                if urls: 
-                                    try:
-                                        loc_json = json.loads(urls[0])
-                                        tweetdata_list[tweet_id_dict[line['id']]]["user"]["location_geoinfo"] = loc_json
-                                        Geocoder_count += 1
-                                    except Exception as e:
-                                        print "location json exception"
-                                        print urls
-                                        print sys.exc_info()
-                                
+                    # =======================================
+                    # add geo data to Twitter's json response
+                    # =======================================
+                    
+                    if geocode:
+                        # give everybody a blank 
+                        for idx in range(len(tweetdata_list)):
+                            tweetdata_list[idx]["user"]["location_geoinfo"] = {}
+                            
+                        # create a list of locations to send to MapQuest
+                        loc_url = ''
+                        for tweet_loc in tweet_loc_list:
+                            loc_url = loc_url + '&location=' + tweet_loc
+                        # send 'em
+                        urllib.urlretrieve (mapq_url + loc_url, "batch.json")
+                        # get the answer
+                        batch = open("batch.json","r")
+                        lines = batch.readlines()
+                        batch.close()
                         
-                    # process the file and start over
-                    # ===============================
+                        # what they send back has superfluous stuff at the front and back ends
+                        try:
+                            locs = json.loads(lines[0][12:-1])
+                            
+                            # step through MapQuest's response and add data to Twitter's json response
+                            for results in locs['results']:
+                                if results['providedLocation']['location'] in tweet_loc_dict.keys():
+                                    dict_loc = tweet_loc_dict[results['providedLocation']['location']]
+                                    tweetdata_list[dict_loc]["user"]["location_geoinfo"] = results['locations'][0]
+                                    Geocoder_count += 1
+                        except:
+                            print "MapQuest sent invalid json"
+                        
+                                    
+                    # process the json file and start over with a new batch from Twitter
+                    # ==================================================================
                     process_output_file(tweetdata_list, output_filename)
                     bulk_list = []
                   

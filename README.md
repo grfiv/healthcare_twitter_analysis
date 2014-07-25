@@ -36,30 +36,46 @@ def get_twitter_json(list_of_filenames, starting_at=1, ending_at=0, geocode=True
     """
     1) reads in a list of fully-qualified filenames from "list_of_filenames"
         
-    2) processes each row of each file in the file list, 
+    2) processes each row of each topsy file in the "list_of_filenames", 
        making batched calls to Twitter to retrieve the json for each tweet
-           adding the data from topsy file such as "score"
+           adding the data from the topsy file such as "score"
            plus unix timestamps for the topsy firstpost_date field and Twitter's created_at field
            plus coordinate and place name data for Twitter's user location field
     
     - after every 13,500 rows, or whenever there is a threshold-exceeded error
       the program goes to sleep for 15 minutes.
       
+      On my quad i7 4G Windows 7 64-bit machine, with my Comcast Internet connection,
+      I process about 1,700 tweets per minute. The sleep time for the Twitter threshold 
+      obviously increases the elapsed time, yielding roughly 
+      8 + 15 = 23 minutes elapsed time per 13,500 tweets.
+      For 2,500,000 tweets, that's 2,500,000/13,500*23 = 4259 minutes/71 hours/3 days
+      elapsed time for all of the tweets in the project.
+    
+    Note: a file named twitter_credentials.py must be in the folder with the code
+          see the repo: it contains your Twitter credentials
+    
+    Note: if geocode=True a file named mapquest_key.txt must be in the folder with the code
+          get a MapQuest key here: http://developer.mapquest.com/
+          
+    Note: if ["user"] is embedded in ["retweeted_status"] I do not get the location info
+          This, plus problems like blank or incomprehensible ['location'] fields 
+          puts the geo-tagging rate at 75%.
+      
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
            ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
                                if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
-           geocode             if True, calls are made to the MapQuest Open Nominatim Search Service for coordinate and place name data
-                               if False, these call are not made
-                                 this function dramatically slows down the overall process; if you don't need
-                                 location info, you'll be happier with geocode=False
+           geocode             if True, batched requests are made to the MapQuest Developers API for coordinate and place name data
+                               if False, these call are not made and no geo info is added
+                                 
            
     Output: a text file named "bigtweet_filexxx.json", where xxx is the "starting_at" number
         
-    Usage: %run get_twitter_json.py "filename_list.csv" 1 0
+    Usage: %run get_twitter_json.py "filename_list.csv" 2 2
     
     A message like "6 skipped id 448176144668721152" means that Twitter failed to return any data about 
-    a tweet with id 448... and that this is the 6th instance of this.
+    a tweet with id 448... and that this is the 6th instance of this. Fewer than 1% are skipped.
     
     To use the output file in python:
     =================================
