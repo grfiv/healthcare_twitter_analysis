@@ -10,11 +10,6 @@ IPython Notebooks
   
   Look in the `code` directory.  
 
-Analyses
-=================  
-  
-See the `Analyses` folder for basic text-mining analyses of the data.  
-
 Add twitter data to the files
 =================
 The 897 files for this project are located on Google Drive. Install the app and you will have direct access to them.  
