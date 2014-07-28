@@ -169,28 +169,19 @@ Twitter text parsing functions
 - **parse_tweet_text**    
   The Online Twitter Basics.ipynb notebook makes extensive use of this function.  
 ```  
-Parse the text of a single tweet, or a concatenated string from many tweets, 
-and return the individual words, hashtags, users mentioned, urls and sentiment score.    
-
-    Input:  tweet_text: a string with the text to be parsed
-            AFINN:      (optional) True 
-                        Must have "AFINN-111.txt" in your folder  
-                        but the function doesn't care what's in it  
-                        so you can add your own n-grams.
-    
-    Output: lists of:
-              words
+def parse_tweet_text(tweet_text):
+    """
+    Input:  tweet_text: a string with the text of a single tweet
+                        or a concatenation of tweets
+                
+    Output: lists of tokens in the text:
+              words (many emoticons are recognized as words)
               hashtags
               users mentioned
               urls
               
-            (optional) sentiment score 
-            
-    Usage: from twitter_functions import parse_tweet_text 
-    
-           words, hashes, users, urls = parse_tweet_text(tweet_text)
-           
-           words, hashes, users, urls, AFINN_score = parse_tweet_text(tweet_text, AFINN=True)
+    Usage: words, hashes, users, urls = parse_tweet_text(tweet_text)
+    """
 ```  
 
 - **find_WordsHashUsers**    
