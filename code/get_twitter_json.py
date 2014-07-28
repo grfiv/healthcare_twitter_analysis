@@ -93,6 +93,7 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     import time, datetime
     import sys, os
     import urllib2,urllib
+    import os.path
     from twitter_functions import lookup_multiple_tweets
     
     # convert input parameter strings to integer
@@ -125,7 +126,7 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     sleep_batch_rows  = 0     # the number of lines we've processes since the last sleep
     
     # MapQuest Developer API documentation: http://developer.mapquest.com/
-    Geocoder_count    = 0     # how many records did not get Geocoding
+    Geocoder_count    = 0     # how many records did did we Geocode?
     if geocode:
         f = open('mapquest_key.txt','r')
         key = f.readline()
@@ -170,6 +171,12 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
             if file_counter > ending_at:
                 print "Ending before %d of %d %s"%(file_counter, number_of_files, input_filename)
                 break
+                
+        # check that the file exists
+        if not os.path.isfile(input_filename):
+            print "%s does not exist"%input_filename
+            file_counter+=1
+            continue
         
         # open an input file
         with open(input_filename, "rb" ) as infile:
