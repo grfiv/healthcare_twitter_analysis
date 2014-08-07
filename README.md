@@ -15,7 +15,7 @@ IPython Notebooks
 Add twitter data to the files
 =================
 The 897 files for this project are located on Google Drive. Install the app and you will have direct access to them.  
-[Google Drive files on the web](https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing)    
+[Google Drive files on the web](https://drive.google.com/folderview?id=0B2io9_E3COquYWdlWjdzU3ozbzg&usp=sharing)      
 
 However, these files have none of the Twitter data besides the ['text'] field (which is called "content").  
 
