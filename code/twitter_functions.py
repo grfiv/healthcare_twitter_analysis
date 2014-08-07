@@ -257,67 +257,58 @@ def find_WordsHashUsers(input_filename, text_field_name="content", list_or_set="
     else:
         return (word_set, hash_set, user_set, url_set, totallines)
         
-def parse_tweet_text(tweet_text, AFINN=False):
+def parse_tweet_text(tweet_text):
     """
     Input:  tweet_text: a string with the text of a single tweet
-            AFINN:      (optional) True (must have "AFINN-111.txt" in folder)
-    
-    Output: lists of:
-              words
+                        or a concatenation of tweets
+                
+    Output: lists of tokens in the text:
+              words (many emoticons are recognized as words)
               hashtags
               users mentioned
               urls
               
-            (optional) AFINN-111 score 
-            
-    Usage: from twitter_functions import parse_tweet_text 
-    
-           words, hashes, users, urls = parse_tweet_text(tweet_text)
-           
-           words, hashes, users, urls, AFINN_score = parse_tweet_text(tweet_text, AFINN=True)
+    Usage: words, hashes, users, urls = parse_tweet_text(tweet_text)
     """
     import re
+    import HTMLParser
+    hparse = HTMLParser.HTMLParser()
     
-    content = tweet_text.lower()
+    content = tweet_text
            
     # collect and remove URLs
     urls    = re.findall(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", content, re.IGNORECASE)
     content = re.sub(r"\b((?:https?|ftp|file)://[-A-Z0-9+&@#/%?=~_|$!:,.;]*[A-Z0-9+&@#/%=~_|$])", "", content, 0, re.IGNORECASE)
+    
+    content = content.lower()
+    
+    # collect and remove users mentioned
+    users   = re.findall(r"@(\w+)", content)
+    content = re.sub(r"@(\w+)", "", content, 0)
    
     # collect and remove hashtags
     hashes  = re.findall(r"#(\w+)", content)
     content = re.sub(r"#(\w+)", "", content, 0)
-   
-    # collect and remove users mentioned
-    users   = re.findall(r"@(\w+)", content)
-    content = re.sub(r"@(\w+)", "", content, 0)
     
     # strip out extra whitespace in the remaining text
     content = re.sub(r"\s{2,}", " ", content)
     
+    # convert html entities
+    content = hparse.unescape(content)
+    
     # strip out singleton punctuation
     raw_words   = content.split()
-    words = list()
+    words = []
     for word in raw_words:
-        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","&amp;","|"]: continue
+        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","|",'"','~','..','/','&','<','>']: continue
         re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
         word       = re_pattern.sub(u'\uFFFD', word) 
-        if word.encode('utf-8') in ['\xe2\x80\xa6']: continue
-        words.append(word)
+        #if word.encode('utf-8') in ['\xe2\x80\xa6']: continue
         
-    if AFINN:
-        sentiment_words, sentiment_phrases = parse_AFINN("AFINN-111.txt")
-        AFINN_score = 0
-        # single words
-        for word in words:
-            if word in sentiment_words:
-                AFINN_score += sentiment_words[word.lower()]
-        # phrases
-        for phrase in sentiment_phrases:
-            if phrase in content:
-                AFINN_score += sentiment_phrases[phrase]
-                
-        return (words, hashes, users, urls, AFINN_score)
+        # remove trailing commas, periods, question marks, colons, exclamation marks
+        # really want to remove trailing for anything but comma???
+        word = re.sub(r"(.*)[,\.,\?,:,!]$", r"\1", word, 0, re.MULTILINE)
+        words.append(word)
         
     return (words, hashes, users, urls)
     

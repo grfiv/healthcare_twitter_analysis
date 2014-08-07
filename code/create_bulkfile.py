@@ -24,6 +24,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
            starting_at         the line number of "list_of_filenames" where processing should start
            ending_at           if 0   process all files beginning with the "starting_at" line in "list_of_filenames"
                                if > 0 process the files from line "starting_at" to line "ending_at" in "list_of_filenames"
+                                    
            
     Output: a csv file named "bigtweet_filexxx.csv", where xxx is the "starting_at" number
         

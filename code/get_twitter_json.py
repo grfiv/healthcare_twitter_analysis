@@ -11,22 +11,12 @@ def get_twitter_json(list_of_filenames, starting_at=1, ending_at=0, geocode=True
     - after every 13,500 rows, or whenever there is a threshold-exceeded error
       the program goes to sleep for 15 minutes.
       
-      On my quad i7 4G Windows 7 64-bit machine, with my Comcast Internet connection,
-      I process about 1,700 tweets per minute. The sleep time for the Twitter threshold 
-      obviously increases the elapsed time, yielding roughly 
-      8 + 15 = 23 minutes elapsed time per 13,500 tweets.
-      For 2,500,000 tweets, that's 2,500,000/13,500*23 = 4259 minutes/71 hours/3 days
-      elapsed time for all of the tweets in the project.
-    
     Note: a file named twitter_credentials.py must be in the folder with the code
           see the repo: it contains your Twitter credentials
     
     Note: if geocode=True a file named mapquest_key.txt must be in the folder with the code
           get a MapQuest key here: http://developer.mapquest.com/
-          
-    Note: if ["user"] is embedded in ["retweeted_status"] I do not get the location info
-          This, plus problems like blank or incomprehensible ['location'] fields 
-          puts the geo-tagging rate at 75%.
+   
       
     Input: list_of_filenames   a text file with fully-qualified file names
            starting_at         the line number of "list_of_filenames" where processing should start
@@ -39,6 +29,8 @@ def get_twitter_json(list_of_filenames, starting_at=1, ending_at=0, geocode=True
     Output: a text file named "bigtweet_filexxx.json", where xxx is the "starting_at" number
         
     Usage: %run get_twitter_json.py "filename_list.csv" 2 2
+                          - or -
+           nohup python get_twitter_json.py "filename_list.csv" 1 0 &
     
     A message like "6 skipped id 448176144668721152" means that Twitter failed to return any data about 
     a tweet with id 448... and that this is the 6th instance of this. Fewer than 1% are skipped.
@@ -46,7 +38,7 @@ def get_twitter_json(list_of_filenames, starting_at=1, ending_at=0, geocode=True
     To use the output file in python:
     =================================
 import json
-tweet_file = open("../files/bigtweet_file002.json", "r")
+tweet_file = open("bigtweet_file002.json", "r")
 for line in tweet_file:
     tweet = json.loads(str(line))
     if tweet['retweet_count'] > 100:
@@ -88,6 +80,7 @@ posts.insert(tweet_list)
 for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     print "%d %s\n%s"%(result['retweet_count'],result['user']['name'],result['text'])
     """
+    
     import csv, json
     import re
     import time, datetime
@@ -99,12 +92,16 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     # convert input parameter strings to integer
     starting_at = int(starting_at) 
     ending_at   = int(ending_at)
+    geocode     = bool(geocode)
+    msg = "\nlist_of_filenames %s; starting_at %d; ending_at %d; geocode %d"%(list_of_filenames,starting_at,ending_at,geocode)
+    logging.info(msg)
     
     process_start = datetime.datetime.now()
-    print "\n================================"
-    print "process start: %s"%process_start.strftime("%c")
-    print "================================\n"
+    msg = "\n=======================================\nprocess start: %s"%process_start.strftime("%c") + \
+          "\n=======================================\n"
+    print msg
     sys.stdout.flush()
+    logging.info(msg)
     
     # read the list of filenames into "filename_list"
     # ===============================================
@@ -133,6 +130,7 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
         f.close()
         mapq_url = 'http://www.mapquestapi.com/geocoding/v1/batch?key='
         mapq_url = mapq_url + key + '&outFormat=json&maxResults=1&callback=renderBatch'
+        logging.info("MAPQUEST URL " + mapq_url)
 
     
     number_of_files   = len(filename_list) # how many files in the list
@@ -150,7 +148,9 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
         
         # skip the first "starting_at-1" files
         if file_counter < starting_at:
-            print "Skipping %d of %d %s"%(file_counter, number_of_files, input_filename)
+            msg = "Skipping %d of %d %s"%(file_counter, number_of_files, input_filename)
+            print msg
+            logging.info(msg)
             file_counter+=1
             continue  
             
@@ -163,18 +163,23 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
         #
         #       short_file_name = input_filename
         #
-        match = re.search(r"Twitter Data\\(.*)", input_filename) 
+        match = re.search(r"Twitter Data\\(.*)", input_filename) # Windows Google Drive
+        #match = re.search("/home/ubuntu/files(.*)", input_filename) # AWS Ubuntu
         short_file_name = match.group(1)  
 
         # stop if we're beyond "ending_at"
         if ending_at > 0:
             if file_counter > ending_at:
-                print "Ending before %d of %d %s"%(file_counter, number_of_files, input_filename)
+                msg = "Ending before %d of %d %s"%(file_counter, number_of_files, input_filename)
+                print msg
+                logging.info(msg)
                 break
                 
         # check that the file exists
         if not os.path.isfile(input_filename):
-            print "%s does not exist"%input_filename
+            msg = "%s does not exist"%input_filename
+            print msg
+            logging.info(msg)
             file_counter+=1
             continue
         
@@ -184,7 +189,9 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
             lines      = list(reader) # list of all lines/rows in the input file
             totallines = len(lines)   # number of lines in the input file
             
-            print "\n--Processing %d of %d %s rows %d"%(file_counter, number_of_files, short_file_name,totallines)
+            msg = "\n--Processing %d of %d %s rows %d"%(file_counter, number_of_files, short_file_name,totallines)
+            print msg
+            logging.info(msg)
             sys.stdout.flush()
             
             # read the input file line-by-line
@@ -194,7 +201,9 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                 # sleep if we're over the limit of lines processed
                 sleep_batch_rows+=1
                 if sleep_batch_rows > sleep_batch:
-                    print "sleeping after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
+                    msg = "sleeping after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
+                    print msg
+                    logging.info(msg)
                     sleep_batch_rows = 0
                     sleep_process(output_dict, output_filename)
                     
@@ -208,8 +217,11 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                     bulk_list.append(row)
                     list_of_tweet_ids.append(tweet_id)
                 else:
-                    print "tweet url terminated with non-numeric in line %d"%(linenum+1)
+                    msg = "tweet url terminated with non-numeric in line %d"%(linenum+1)
+                    print msg
+                    logging.info(msg)
                     print row['url']
+                    logging.info(row['url'])
                 
                 # if batch-size reached, process the batch
                 if len(list_of_tweet_ids) >= step or (linenum+1) >= totallines:
@@ -225,9 +237,14 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                             tweetdata_list = json.loads(foo)
                             break
                         except ValueError, e:
-                            print "\nTwitter returned invalid json"
+                            msg = "\nTwitter returned invalid json"
+                            print msg
+                            logging.info(msg)
                             print e
-                            print "after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
+                            logging.info(e)
+                            msg = "after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
+                            print msg
+                            logging.info(msg)
                             bulk_list = []
                             invalid_json = True
                             break
@@ -238,10 +255,12 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                         
                     # if Twitter returns an error
                     if 'errors' in tweetdata_list:
-                        print "Twitter returned an error message:"
-                        print "message: " + str(tweetdata_list["errors"][0]['message'])
-                        print "code:    " + str(tweetdata_list["errors"][0]['code'])
-                        print "after %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
+                        msg = "Twitter returned an error message:\n" + \
+                              "message: " + str(tweetdata_list["errors"][0]['message']) + \
+                              "\ncode:    " + str(tweetdata_list["errors"][0]['code']) + \
+                              "\nafter %d lines of file %d of %d %s"%(linenum, file_counter, number_of_files, short_file_name)
+                        print msg
+                        logging.info(msg)
                         sleep_batch_rows = 0
                         sleep_process(tweetdata_list, output_filename)
                         bulk_list = [] # we lose the batch
@@ -282,20 +301,28 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                             # check the entire line['id'] is numeric
                             if re.match(r"^\d+", line['id']):
                                 # yes
-                                print "%d skipped id %d"%(skip_counter, int(line['id']))
+                                msg = "%d skipped id %d"%(skip_counter, int(line['id']))
+                                print msg
+                                logging.info(msg)
                             else:
                                 # no
                                 print skip_counter
-                                print "line['id'] is not all numeric"
-                                print line['id']                               
+                                logging.info(skip_counter)
+                                msg = "line['id'] is not all numeric"
+                                print msg
+                                logging.info(msg)
+                                print line['id']            
+                                logging.info(line['id'])
                             continue
                             
                         tweetdata = tweetdata_list[tweet_id_dict[line['id']]]
                         if str(line['id']) != str(tweetdata['id']):
                             skip_counter+=1
-                            print "id mismatch, skipping %d"%(skip_counter)
-                            print "line  id %s"%(str(line['id']))
-                            print "tweet id %s"%(str(tweetdata['id']))
+                            msg = "id mismatch, skipping %d"%(skip_counter) + \
+                                   "\nline  id %s"%(str(line['id'])) + \
+                                   "\ntweet id %s"%(str(tweetdata['id']))
+                            print msg
+                            logging.info(msg)
                             continue
                             
                         # ===========================================
@@ -351,17 +378,35 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                         batch.close()
                         
                         # what they send back has superfluous stuff at the front and back ends
-                        try:
-                            locs = json.loads(lines[0][12:-1])
-                            
-                            # step through MapQuest's response and add data to Twitter's json response
-                            for results in locs['results']:
-                                if results['providedLocation']['location'] in tweet_loc_dict.keys():
-                                    dict_loc = tweet_loc_dict[results['providedLocation']['location']]
-                                    tweetdata_list[dict_loc]["user"]["location_geoinfo"] = results['locations'][0]
-                                    Geocoder_count += 1
-                        except:
-                            print "MapQuest sent invalid json"
+                        match = []
+                        if lines: match = re.search(r"renderBatch\((\{.*\})", lines[0])
+                        if match:
+                            result = match.group(1)
+                            try:
+                                locs = json.loads(result)
+                                
+                                # step through MapQuest's response and add data to Twitter's json response
+                                for results in locs['results']:
+                                    if results['providedLocation']['location'] in tweet_loc_dict.keys():
+                                        dict_loc = tweet_loc_dict[results['providedLocation']['location']]
+                                        tweetdata_list[dict_loc]["user"]["location_geoinfo"] = results['locations'][0]
+                                        if tweetdata_list[dict_loc]["user"]["location_geoinfo"]:
+                                            Geocoder_count += 1
+                                    else:
+                                        logging.warning("\nMAPQUEST KEY MISMATCH")
+                                        logging.warning(tweet_loc_dict.keys())
+                                        logging.warning(results)
+                            except:
+                                msg = "MapQuest sent invalid json"
+                                print msg
+                                logging.warning(msg)
+                                logging.warning(lines)
+                        else:
+                            msg = "MapQuest sent empty response"
+                            print msg
+                            logging.warning(msg)
+                            logging.warning(lines)
+                        
                         
                                     
                     # process the json file and start over with a new batch from Twitter
@@ -378,13 +423,15 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
     process_minutes = process_seconds/60.0
     process_hours   = process_minutes/60.0
     
-    print "\n================================"
-    print "process start: %s"%process_start.strftime("%c")
-    print "process end:   %s"%process_end.strftime("%c")
-    print "process elapsed hours %0.2f"%process_hours
+    msg = "\n=======================================\n" + \
+          "process start: %s"%process_start.strftime("%c") + \
+          "\nprocess end:   %s"%process_end.strftime("%c") + \
+          "\nprocess elapsed hours %0.2f"%process_hours
     if Geocoder_count > 0:
-        print "%d records geo-encoded"%Geocoder_count
-    print "================================\n"    
+        msg = msg + "\n%d records geo-encoded"%Geocoder_count
+    msg = msg + "\n=======================================\n" 
+    print msg
+    logging.info(msg)
     
                     
     
@@ -399,7 +446,9 @@ def sleep_process(output_dict, output_filename):
     length_of_sleep = int(15.1*60)  # seconds
     timenow    = datetime.datetime.today().strftime("%H:%M:%S")
     timeplus15 = (datetime.datetime.today()+timedelta(seconds=length_of_sleep)).strftime("%H:%M:%S")
-    print "sleeping at %s, will resume at %s"%(timenow, timeplus15)
+    msg = "sleeping at %s, will resume at %s"%(timenow, timeplus15)
+    print msg
+    logging.info(msg)
     sys.stdout.flush()
     
     time.sleep(length_of_sleep)
@@ -429,13 +478,19 @@ def process_output_file(output_dict, output_filename):
                     total_processed+=1
                 
         timenow     = datetime.datetime.today().strftime("%H:%M:%S")
-        print "%s processed at %s, rows %d"%(output_filename, timenow, total_processed)
+        msg = "%s processed at %s, rows %d"%(output_filename, timenow, total_processed)
+        print msg
+        logging.info(msg)
         sys.stdout.flush()
     output_dict = []
     
                     
 if __name__ == '__main__':
     import sys
+    # set up for logging to a file
+    import logging
+    logging.basicConfig(filename='logfile.log',level=logging.NOTSET, \
+                        format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     if len(sys.argv) == 2: get_twitter_json(sys.argv[1],starting_at=1, ending_at=0, geocode=True)
     if len(sys.argv) == 3: get_twitter_json(sys.argv[1],sys.argv[2], ending_at=0, geocode=True)
     if len(sys.argv) == 4: get_twitter_json(sys.argv[1],sys.argv[2], sys.argv[3], geocode=True)
