@@ -1,3 +1,31 @@
+def mapquest_single_location(location, key):
+    """
+    find the MapQuest location json for a single location
+    
+    Input:    location    Twitter location, check that it's not null before calling
+              key         MapQuest developer key
+    
+    Output:   json returned by MapQuest, or {}
+    """
+    import json
+    import requests
+    import random
+    mapq_url = 'http://open.mapquestapi.com/geocoding/v1/address?key='
+    mapq_url = mapq_url + key + '&location='
+    
+    loc_url  = mapq_url + location
+    response = requests.get(loc_url)
+    mapq_ret = response.text
+    
+    mapq_ret_json = json.loads(mapq_ret)
+    if mapq_ret_json['results'][0]['locations']:
+        # if they give us more than one, choose at random
+        index = random.randint(0,len(mapq_ret_json['results'][0]['locations'])-1)
+        return(mapq_ret_json['results'][0]['locations'][index])
+    else:
+        empty_dict = {}
+        return(empty_dict)
+
 def twitterreq(url, method, parameters):
     """
     Send twitter URL request
@@ -22,6 +50,7 @@ def twitterreq(url, method, parameters):
     """
     import oauth2 as oauth
     import urllib2 as urllib
+    import sys, time
 
     # this is a private function containing my Twitter credentials
     from twitter_credentials import twitter_credentials
@@ -64,7 +93,14 @@ def twitterreq(url, method, parameters):
     opener.add_handler(http_handler)
     opener.add_handler(https_handler)
 
-    response = opener.open(url, encoded_post_data)
+    try:
+        response = opener.open(url, encoded_post_data)
+    except:
+        print "\n ERROR IN TWITTERREQ"
+        print sys.exc_info()
+        time.sleep(60) # wait 60 seconds
+        # try one more time
+        response = opener.open(url, encoded_post_data)
 
     return response
 
@@ -271,8 +307,6 @@ def parse_tweet_text(tweet_text):
     Usage: words, hashes, users, urls = parse_tweet_text(tweet_text)
     """
     import re
-    import HTMLParser
-    hparse = HTMLParser.HTMLParser()
     
     content = tweet_text
            
@@ -293,20 +327,16 @@ def parse_tweet_text(tweet_text):
     # strip out extra whitespace in the remaining text
     content = re.sub(r"\s{2,}", " ", content)
     
-    # convert html entities
-    content = hparse.unescape(content)
-    
     # strip out singleton punctuation
     raw_words   = content.split()
     words = []
     for word in raw_words:
-        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","|",'"','~','..','/','&','<','>']: continue
+        if word in ['.',':','!',',',';',"-","-","?",'\xe2\x80\xa6',"!","|",'"','~','..','/']: continue
         re_pattern = re.compile(u'[^\u0000-\uD7FF\uE000-\uFFFF]', re.UNICODE)
         word       = re_pattern.sub(u'\uFFFD', word) 
         #if word.encode('utf-8') in ['\xe2\x80\xa6']: continue
         
         # remove trailing commas, periods, question marks, colons, exclamation marks
-        # really want to remove trailing for anything but comma???
         word = re.sub(r"(.*)[,\.,\?,:,!]$", r"\1", word, 0, re.MULTILINE)
         words.append(word)
         
