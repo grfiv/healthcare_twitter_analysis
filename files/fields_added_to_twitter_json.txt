@@ -4,39 +4,14 @@ get_twitter_json.py augments the Twitter json with the following fields
 "timestamp": 1389010334.0              # unix timestamp for Twitter's 'created_at' field
 
 "user": {
-	
-    "location": "Perth, Western Australia",     	            # given
+		"location": "New York City",
+        },
 
-    "location_geoinfo": {                                       # derived
-			"sideOfStreet": "N",
-			"linkId": "282859405",
-			"mapUrl": "http://www.mapquestapi.com/staticmap/v4/getmap?key=Fmjtd|luur2008n9,8l=o5-9a1nhu&type=map&size=225,160&pois=purple-1,-31.9527121,115.8604796,0,0,|&center=-31.9527121,115.8604796&zoom=12&rand=1679740167",
-			"displayLatLng": {
-				"lat": -31.952712,
-				"lng": 115.86048
-			},
-			"adminArea6Type": "Neighborhood",
-			"adminArea3Type": "State",
-			"dragPoint": false,
-			"geocodeQualityCode": "A5XAX",
-			"adminArea1": "AU",
-			"geocodeQuality": "CITY",
-			"adminArea3": "Western Australia",
-			"adminArea4": "",
-			"adminArea5": "Perth",
-			"adminArea6": "",
-			"postalCode": "",
-			"type": "s",
-			"adminArea1Type": "Country",
-			"adminArea5Type": "City",
-			"latLng": {
-				"lat": -31.952712,
-				"lng": 115.86048
-			},
-			"adminArea4Type": "County",
-			"unknownInput": "",
-			"street": ""
-		},
+"geo": {
+		"type": "Point",
+		"coordinates": [40.730599,
+		-73.986581]
+	},
 
 "topsy": {
 				
@@ -53,5 +28,3 @@ get_twitter_json.py augments the Twitter json with the following fields
     "file_counter": 2,                 # info about get_twitter_json.py process
     "short_file_name": "Jan to May\\Blood\\Tweets_BloodCancer.csv"
 }
-
-
