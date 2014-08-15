@@ -1,0 +1,27 @@
+Files with Twitter json added
+=============================
+
+bigtweet_file001.gz
+1,520 Mb; 3,040,986 lines
+
+https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/bigtweet_file001.gz
+
+bigtweet_file329.gz
+340 Mb; 651,317 lines
+
+https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/bigtweet_file329.gz
+
+bigtweet_file361.gz
+793 Mb; 1,509,351 lines
+
+https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/bigtweet_file361.gz
+
+
+... plus geo tags
+=================
+
+
+
+
+... and reverse geo info
+========================
