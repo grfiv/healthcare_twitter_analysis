@@ -142,6 +142,16 @@ for input_filename in ["bigtweet_file001.json","bigtweet_file329.json","bigtweet
     
     # process line-by-line
     for line in f:
+        #
+        #  AFTER A FAILURE
+        #  ===============
+        #
+        if line_count < 211499:
+            line_count+=1
+            file_lines+=1
+            first_sleep = False
+            continue
+            
         line_count+=1
         file_lines+=1
         try:
