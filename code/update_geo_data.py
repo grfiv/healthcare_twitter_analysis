@@ -55,7 +55,7 @@ mapq_count       = 0
 bigplace_count   = 0
 line_count       = 0
 file_count       = 0
-key = 'Fmjtd%7Cluur2008n9%2C8l%3Do5-9a1nhu'
+key = '<replace with your personal mapquest key>'
 
 output_list      = []       # list of tweets to send to output file
 global first_sleep
