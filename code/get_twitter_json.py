@@ -33,52 +33,7 @@ def get_twitter_json(list_of_filenames, starting_at=1, ending_at=0, geocode=True
            nohup python get_twitter_json.py "filename_list.csv" 1 0 &
     
     A message like "6 skipped id 448176144668721152" means that Twitter failed to return any data about 
-    a tweet with id 448... and that this is the 6th instance of this. Fewer than 1% are skipped.
-    
-    To use the output file in python:
-    =================================
-import json
-tweet_file = open("bigtweet_file002.json", "r")
-for line in tweet_file:
-    tweet = json.loads(str(line))
-    if tweet['retweet_count'] > 100:
-        print "\n\n%d %s\n%s"%(tweet['retweet_count'], tweet['user']['name'], tweet['text'])
-
-        
-    To use the output file in R:
-    ============================
-library(rjson)
-file_path  = ("../files/bigtweet_file002.json")
-tweet_list = fromJSON(sprintf("[%s]", paste(readLines(file_path),collapse=",")))
-
-for (i in 1:length(tweet_list)){
-    if (tweet_list[[i]]$retweet_count > 100){
-        cat(sprintf("\n\n%d %s\n%s",tweet_list[[i]]$retweet_count, tweet_list[[i]]$user$name, tweet_list[[i]]$text))
-    }
-} 
-## convert to twitteR structure
-library(twitteR)
-tweets = import_statuses(raw_data=tweet_list)
-
-   To store in MongoDB using python:
-   =================================
-# create a python list of each tweet
-import json
-tweet_file = open("../files/bigtweet_file002.json", "r")
-tweet_list = [json.loads(str(line)) for line in tweet_file]
-
-# store the list in MongoDB
-from pymongo import MongoClient
-client = MongoClient()
-db     = client['file002']
-posts  = db.posts
-#db.posts.remove( { } ) # delete if previously created
-
-posts.insert(tweet_list)
-
-# same example as above
-for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
-    print "%d %s\n%s"%(result['retweet_count'],result['user']['name'],result['text'])
+    a tweet with id 448... and that this is the 6th instance of this. 
     """
     
     import csv, json
@@ -163,8 +118,8 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
         #
         #       short_file_name = input_filename
         #
-        match = re.search(r"Twitter Data\\(.*)", input_filename) # Windows Google Drive
-        #match = re.search("/home/ubuntu/files(.*)", input_filename) # AWS Ubuntu
+        #match = re.search(r"Twitter Data\\(.*)", input_filename) # Windows Google Drive
+        match = re.search("/home/ubuntu/files(.*)", input_filename) # AWS Ubuntu
         short_file_name = match.group(1)  
 
         # stop if we're beyond "ending_at"
@@ -388,6 +343,12 @@ for result in db.posts.find({ "retweet_count": { "$gt": 100 } }):
                                 # step through MapQuest's response and add data to Twitter's json response
                                 for results in locs['results']:
                                     if results['providedLocation']['location'] in tweet_loc_dict.keys():
+                                    #===========================
+                                    # an idea for an alternative
+                                    #===========================
+                                    #needle   = results['providedLocation']['location']
+                                    #haystack = tweet_loc_dict.keys()
+                                    #indices  = [i for i, s in enumerate(haystack) if needle in s]
                                         dict_loc = tweet_loc_dict[results['providedLocation']['location']]
                                         tweetdata_list[dict_loc]["user"]["location_geoinfo"] = results['locations'][0]
                                         if tweetdata_list[dict_loc]["user"]["location_geoinfo"]:
@@ -489,7 +450,7 @@ if __name__ == '__main__':
     import sys
     # set up for logging to a file
     import logging
-    logging.basicConfig(filename='logfile.log',level=logging.NOTSET, \
+    logging.basicConfig(filename='logfile.log',level=logging.DEBUG, \
                         format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
     if len(sys.argv) == 2: get_twitter_json(sys.argv[1],starting_at=1, ending_at=0, geocode=True)
     if len(sys.argv) == 3: get_twitter_json(sys.argv[1],sys.argv[2], ending_at=0, geocode=True)
