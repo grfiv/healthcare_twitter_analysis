@@ -3,7 +3,7 @@ def create_bulkfile(list_of_filenames, starting_at=1, ending_at=0):
     - reads in a list of fully-qualified filenames from "list_of_filenames"
     
         I'm expecting file names to have the Windows Google Drive structure, for example
-        ... Twitter Data\June\Cardiovasucular\Tweets_AFib.csv  
+        ... Twitter Data\June\Cardiovasucular\Tweets_AFib.csv   
         
         the code is commented with a simple solution you can implement to allow you to have
         any arbitrary fully-qualified filename, for any operating system
