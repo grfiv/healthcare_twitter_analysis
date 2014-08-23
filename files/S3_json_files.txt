@@ -20,7 +20,11 @@ https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/bigtweet_file361.
 ... plus geo tags
 =================
 
-
+https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/HTA_geotagged.gz
+946 Mb/8.26 Gb
+2,023,501 lines in total
+1,626,053 lines (80.36%) with non-blank location entries
+1,156,825 lines (57.17%) with non-blank geo entries
 
 
 ... and reverse geo info
