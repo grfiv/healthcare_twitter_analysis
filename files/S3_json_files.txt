@@ -54,4 +54,15 @@ Total lines geo-tagged: 1,156,825 + 804,470 + 658,041 + 710,513 = 3,329,849  (63
 ... and reverse geo info
 ========================
 
-<underway>
+* https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/HTA_reversegeo2.gz  
+512 Mb/4.28 Gb  
+
+* https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/HTA_reversegeo3.gz  
+522 Mb/4.33 Gb  
+
+
+2,083,318 total lines
+  748,403 US country codes
+  496,727 non-US country codes
+230 total country codes
+53 distinct states (includes territories)
