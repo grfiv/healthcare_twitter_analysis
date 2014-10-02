@@ -1,9 +1,9 @@
 Healthcare Twitter Analysis  
 ===========================  
 
-The use of social media data and data science to gain insights into health care and medicine. 
+#### The use of social media data and data science to gain insights into health care and medicine. 
 
-The current status report is in the main folder. 
+The current **status report** is in the main folder and you would do well to start by at least skimming it. 
 
 [![DOI](https://zenodo.org/badge/5738/grfiv/healthcare_twitter_analysis.png)](http://dx.doi.org/10.5281/zenodo.11426)
 
@@ -16,27 +16,29 @@ All of the tweets for this project have been processed and consolidated into a s
 1.85 Gb zipped / 15.80 Gb unzipped  
 
 
-Each of the 4 million rows in this file is a tweet in json format containing the following information:
+Each of the 4 million rows in this file is a tweet in json format.
 
-- All the Twitter data in exactly the json format of the original  
-- Unix time stamp  
-- data from the original files:  
-    - originating file name  
-    - score  
-    - author screen name  
-    - URLs  
+* Every record contains the following information:
+    - All the Twitter data in exactly the json format of the original  
+    - Unix time stamp  
+    - data from the original files:  
+        - originating file name  
+        - score  
+        - author screen name  
+        - URLs  
 
-60% of the records have geographic information ...  
-- Latitude & Longitude  
-- Country name & ISO2 country code  
-- City  
-- For country code "US"  
-  - Zipcode  
-  - Telephone area code  
-  - Square miles inside the zipcode  
-  - 2010 Census population of the zipcode  
-  - County & FIPS code  
-  - State name & USPS abbreviation   
+
+* In addition, 60% of the records have geographic information
+    - Latitude & Longitude  
+    - Country name & ISO2 country code  
+    - City  
+    - For country code "US"  
+      - Zipcode  
+      - Telephone area code  
+      - Square miles inside the zipcode  
+      - 2010 Census population of the zipcode  
+      - County & FIPS code  
+      - State name & USPS abbreviation   
 
 The basic technique for using this file in Python is the following:
 
@@ -50,7 +52,27 @@ The basic technique for using this file in Python is the following:
             text  = tweet["text"]      # text of original tweet
             ...                        # etc.
             
-Python provides very powerful analytical and plotting features but R is also very handy; R does not work well with large datasets but Python can be used to create a targeted subset file that R can read (or Excel, or anything else for that matter).
+
+The Status Report includes instructions for loading the json text file into a MongoDB database collection; I keep mine on an external hard drive and I start the MongoDB server as follows:
+
+    mongod --dbpath "E:\HTA"
+
+The database is HTA and the collection is grf. In that case the Python code would look like this:
+
+    import json
+    from pymongo import MongoClient
+
+    # start up MongoDB
+    # ================
+    client = MongoClient()  # assuming you have the MongoDB server running ...
+
+    db     = client['HTA']   # reference the database
+    tweets = db.grf          # reference the collection
+
+    for tweet in tweets.find():
+        text  = tweet["text"]
+        if tweet['geo']:
+            (...)
 
 The Status Report in the main part of the repo contains  
 - a comprehensive explanation of the dataset  
