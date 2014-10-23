@@ -80,3 +80,4 @@ The Status Report in the main part of the repo contains
 - a list of references to other healthcare-related Twitter analyses  
 - instructions for using Amazon Web Services
 - sample programs using this file with Python, R and MongoDB.
+- instructions on how to create a RESTful interface to the MongoDB database from a web page using jQuery.
