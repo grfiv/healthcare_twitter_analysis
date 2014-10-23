@@ -14,8 +14,13 @@
   
   <body>
   
-  <!-- Tabs -->
-  <h1 class="demoHeaders" style='font-size:300%;text-align: center;'>RESTful Interface to Healthcare Twitter Analysis MongoDB database</h1>
+  <!-- ========================================================= -->
+  <!-- =========================  TABS ========================= -->
+  <!-- ========================================================= -->
+  <h1 class="demoHeaders" 
+      style='font-size:300%;text-align: center;'>
+      RESTful Interface to Healthcare Twitter Analysis MongoDB database</h1>
+      
   <div id="tabs">
       <ul>
           <li><a href="#tabs-1">Interface</a></li>
@@ -33,7 +38,7 @@
         
         <label id="tooltip" for="query-limit" style='font-size:200%;' 
                title="Set this value to zero (0) to return every matching record">Enter the maximum to return &nbsp;&nbsp;&nbsp; </label>
-        <input type="text" id="query-limit" name="query-limit" 
+        <input type="number" id="query-limit" name="query-limit" min="0" max="4000000"
                value="5" 
                style='width:150px;height:40px;font-size:200%;text-align: center;margin:5px 0 5px 0;'>
         <br>
@@ -47,6 +52,7 @@
       <section id="query-response-section" style='display: none;'>
         <p id="query-str-display" style='font-size:150%;'>The query: <span></span></p>
         <p id="limit-display"     style='font-size:150%;'>Limited to: <span></span></p>
+        <p id="numRet-display"    style='font-size:150%;'>Number returned: <span></span></p>
         
         <hr>
         
@@ -72,7 +78,6 @@
           
       <p>Obviously, these instructions apply to a Windows machine; Linux and Mac folks will have to adapt.</p>
         
-      
       <ol>
         <li>Start the MongoDB Server using the database on the external drive<br>
           <ol>
@@ -112,11 +117,11 @@
       <p>My expectation is to enhance this system so that you can scroll through all the matching documents; 
          the plan is to make ajax requests behind the scenes as you scroll through so that an entire mass of data isn't sent down all at once, 
          storing the documents received so far in Chrome's IndexedDB local storage facility for quick random-access retrieval.</p>
-      
-      
-      
+         
       </div> <!-- id="tabs-2"  -->
   </div>
+  
+  <!-- For all you load-sequence fanatics, I'll get around to making the JavaScript load asynchronously when I'm closer to finished. -->
   
   <script src="js/jquery-2.1.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
@@ -129,10 +134,18 @@
   $( "#button" ).button();
   $( "#radioset" ).buttonset();
   
-  // ================
-  // Refresh the page
-  // ================
+  // =========
+  // Utilities
+  // =========
+  function isNonNegInt(n) {
+    // is n a non-negative integer?
+    // (+n coerces n to a number) 
+    if ($.isNumeric(n) && (+n)%1 == 0 && (+n) >= 0) { return true; }
+    return false;
+  }
+  
   $( ".refresh-page-button" ).on('click', function() {
+    // refresh the page when the Refresh button is clicked
     location.reload();
   });
   
@@ -147,7 +160,12 @@
     if (query_str === "") {
       query_str = "{$text: {$search: '#Sepsis'}}";
     }
+    
     var limit = $( "#query-limit" ).val();
+    if (!isNonNegInt(limit)) { 
+      limit = "5"; 
+      $( "#query-limit" ).val(limit)
+      }
     
     // convert the query string to object form (eval)
     // and then JSON stringify it for transmission to server
@@ -174,9 +192,13 @@
     // ----------------------------
     request.done(function( response ) {
         console.log( response );
+        
+        // display the response
         var jsonPretty = JSON.stringify(response, null, '\t');
-
         $("pre").text(jsonPretty);
+        
+        // display the number of matches returned
+        $("#numRet-display").find("span").text(response['num']);
     });
     
     // if the request fails
@@ -185,8 +207,7 @@
       alert( "Request failed: " + textStatus );
     });
   
-  });
-  
+  }); // <=== on click
   </script>
   
   </body>
