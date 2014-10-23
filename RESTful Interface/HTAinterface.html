@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="RESTful Interface to Healthcare Twitter Analysis MongoDB database">
+    <meta name="author"      content="George Fisher">
+    <meta name="viewport"    content="width=device-width,initial-scale=1">
+ 
+    <title>RESTful Interface to Healthcare Twitter Analysis MongoDB database</title>
+
+    <link href="css/jquery-ui.css"       rel="stylesheet">
+    <link href="css/jQueryUI_inline.css" rel="stylesheet">
+  </head>
+  
+  <body>
+  
+  <!-- Tabs -->
+  <h1 class="demoHeaders" style='font-size:300%;text-align: center;'>RESTful Interface to Healthcare Twitter Analysis MongoDB database</h1>
+  <div id="tabs">
+      <ul>
+          <li><a href="#tabs-1">Interface</a></li>
+          <li><a href="#tabs-2">Instructions</a></li>
+      </ul>
+      
+      <!-- ====================  INTERFACE ==================== -->
+      <div id="tabs-1">
+      <section class="query-input">
+        <label for="query-text" style='font-size:200%;'>MongoDB Command-Line Query &nbsp;</label>
+        <input type="text" id="query-text" name="query-text" 
+               placeholder=" {$text: {$search: '#Sepsis'}}"
+               style='width:450px;height:40px;font-size:200%'>
+        <br>
+        
+        <label id="tooltip" for="query-limit" style='font-size:200%;' 
+               title="Set this value to zero (0) to return every matching record">Enter the maximum to return &nbsp;&nbsp;&nbsp; </label>
+        <input type="text" id="query-limit" name="query-limit" 
+               value="5" 
+               style='width:150px;height:40px;font-size:200%;text-align: center;margin:5px 0 5px 0;'>
+        <br>
+        
+        <button id="button" class="query-input-button"  style='margin: 15px 0 15px 400px;font-size:200%;border-radius: 15px;;'>Click to send the query</button>
+        <button id="button" class="refresh-page-button" style='margin: 15px 0 15px 400px;font-size:200%;border-radius: 15px;;'>Refresh</button>
+      </section>
+      
+      <hr>
+      
+      <section id="query-response-section" style='display: none;'>
+        <p id="query-str-display" style='font-size:150%;'>The query: <span></span></p>
+        <p id="limit-display"     style='font-size:150%;'>Limited to: <span></span></p>
+        
+        <hr>
+        
+        <pre id="query-results" style='font-size:150%;'></pre>
+      </section>
+      
+      
+      </div> <!-- id="tabs-1"  -->
+      
+      <!-- ====================  INSTRUCTIONS ==================== -->
+      <div id="tabs-2" style='font-size:150%;'>
+      
+      <p>These instructions assume you have created a MongoDB database as follows<br>
+         <span style='font-family:"Courier New"'>mongoimport -d HTA -c grf --file HTA_noduplicates.json</span><br>
+         on an external hard drive, location <span style='font-family:"Courier New"'>E:\HTA</span></p>
+         
+      <p>... and that you have this webpage, <span style='font-family:"Courier New"'>HTAinterface.html</span><br>
+          and the Bottle Server, <span style='font-family:"Courier New"'>bottle_server.py</span><br>
+          on the same external hard drive in location <span style='font-family:"Courier New"'>E:\HTA\RESTful Interface</span><br>
+          with the supporting files in the structure shown in the repo.</p>
+          
+      <p>The final assumption is that you are using the latest version of the Chrome browser. Others may work, but only by luck.</p>
+          
+      <p>Obviously, these instructions apply to a Windows machine; Linux and Mac folks will have to adapt.</p>
+        
+      
+      <ol>
+        <li>Start the MongoDB Server using the database on the external drive<br>
+          <ol>
+            <li>Start a command window as Administrator</li>
+            <li><span style='font-family:"Courier New"'>net stop MongoDB</span></li>
+            <li><span style='font-family:"Courier New"'>mongod --dbpath "E:\HTA"</span></li>
+          </ol>
+        </li><br>
+        
+        <li>Start the Bottle HTTP Server<br>
+          <ol>
+            <li>Start another command window</li>
+            <li><span style='font-family:"Courier New"'>e:</span></li>
+            <li><span style='font-family:"Courier New"'>cd E:\HTA\RESTful Interface</span></li>
+            <li><span style='font-family:"Courier New"'>python bottle_server.py</span></li>
+          </ol>
+        </li><br>
+        
+        <li>Using Chrome, load the interface web page<br>
+          <span style='font-family:"Courier New"'>http://localhost:8082/</span></li>
+        </li>
+      </ol>
+      
+      <p>The interface is very simple: there are only two things you have to enter ...</p>
+      <ul>
+        <li>A MongoDB query in exactly the format used on the mongo command line</li>
+        <li>A limit on the number of documents to return; set to zero (0) and the '_id's of all the matching documents will be returned</li>
+      </ul>
+      
+      <p>At the moment you only see displayed the result of the query:</p>
+      <ul>
+        <li>a list of the '_id's that match, up to the limit ("id_list")</li>
+        <li>the number in that list ("num")</li>
+        <li>the first matching document ("example")</li>
+      </ul>
+      
+      <p>My expectation is to enhance this system so that you can scroll through all the matching documents; 
+         the plan is to make ajax requests behind the scenes as you scroll through so that an entire mass of data isn't sent down all at once, 
+         storing the documents received so far in Chrome's IndexedDB local storage facility for quick random-access retrieval.</p>
+      
+      
+      
+      </div> <!-- id="tabs-2"  -->
+  </div>
+  
+  <script src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/jquery-ui.js"></script>
+  <script>
+  // ==============
+  // jQuery UI code
+  // ==============
+  $( "#tabs" ).tabs();
+  $( "#tooltip" ).tooltip();
+  $( "#button" ).button();
+  $( "#radioset" ).buttonset();
+  
+  // ================
+  // Refresh the page
+  // ================
+  $( ".refresh-page-button" ).on('click', function() {
+    location.reload();
+  });
+  
+  // ================================
+  // when the query button is clicked
+  // ================================
+  $( ".query-input-button" ).on('click', function() {
+  
+    // get the query and limit
+    // -----------------------
+    var query_str = $( "#query-text" ).val();
+    if (query_str === "") {
+      query_str = "{$text: {$search: '#Sepsis'}}";
+    }
+    var limit = $( "#query-limit" ).val();
+    
+    // convert the query string to object form (eval)
+    // and then JSON stringify it for transmission to server
+    // -----------------------------------------------------
+    query_str = JSON.stringify(eval('(' + query_str + ')'));
+    
+    // display the query and limit on the page
+    // ---------------------------------------
+    $("#query-response-section").show();
+    $("#query-str-display").find("span").text(query_str);
+    $("#limit-display").find("span").text(limit);
+    
+    // send the query to the server
+    // ----------------------------
+    var request = $.ajax({
+      url:         "http://localhost:8082/query/" + limit,
+      type:        "POST",
+      data:        query_str, 
+      dataType:    "json",
+      contentType: "application/json"
+    });
+    
+    // if the request is successful
+    // ----------------------------
+    request.done(function( response ) {
+        console.log( response );
+        var jsonPretty = JSON.stringify(response, null, '\t');
+
+        $("pre").text(jsonPretty);
+    });
+    
+    // if the request fails
+    // --------------------
+    request.fail(function( jqXHR, textStatus ) {
+      alert( "Request failed: " + textStatus );
+    });
+  
+  });
+  
+  </script>
+  
+  </body>
+</html>

@@ -8,7 +8,27 @@ The current **status report** is in the main folder and you would do well to sta
 [![DOI](https://zenodo.org/badge/5738/grfiv/healthcare_twitter_analysis.png)](http://dx.doi.org/10.5281/zenodo.11426)
 
 -------------------------------
+####RESTful interface to the MongoDB database
 
+Under the `RESTful Interface` folder you will find the entire file structure required to run a Chrome web browser app that makes queries to a MongoDB database with all of the project's ~4 million json documents.
+
+The instructions for running the project after you have installed the files  are under the `Instructions` tab of the main web page `HTAinterface.html` which you can simply load into your Chrome browser (Ctrl+o). The most-current instructions are contained here and will be updated as the project evolves.
+
+The Status Report has a section with some of the technical details of Bottle, jQuery and Ajax
+
+-------------------------------
+####The Status Report `Status Report.pdf` in the main folder
+ 
+- a comprehensive explanation of the dataset  
+- examples of analyses done with this dataset  
+- a list of references to other healthcare-related Twitter analyses  
+- instructions for using Amazon Web Services
+- sample programs using this file with Python, R and MongoDB.
+- technical details of the RESTful interface. 
+
+
+-------------------------------
+####Complete dataset of the tweets for this project
 
 All of the tweets for this project have been processed and consolidated into a single file that can be downloaded with this link:
 
@@ -74,10 +94,3 @@ The database is HTA and the collection is grf. In that case the Python code woul
         if tweet['geo']:
             (...)
 
-The Status Report in the main part of the repo contains  
-- a comprehensive explanation of the dataset  
-- examples of analyses done with this dataset  
-- a list of references to other healthcare-related Twitter analyses  
-- instructions for using Amazon Web Services
-- sample programs using this file with Python, R and MongoDB.
-- instructions on how to create a RESTful interface to the MongoDB database from a web page using jQuery.
