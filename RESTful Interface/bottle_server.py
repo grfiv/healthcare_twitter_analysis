@@ -2,10 +2,6 @@
 """
 Server for the RESTful interface to the MongoDB database
 of tweets for the Healthcare Twitter Analysis project.
-
-    e:
-    cd "E:\HTA\RESTful Interface"
-    python bottle_server.py
 """
 
 import pymongo, bottle
@@ -25,6 +21,7 @@ __maintainer__ = "George Fisher"
 __email__      = "george@georgefisher.com"
 __status__     = "Prototype"
 
+# =======================
 # for relative addressing
 # =======================
 @route('/static/:path#.+#', name='static')
@@ -46,13 +43,15 @@ def static(path):
 @route('/data/:path#.+#', name='data')
 def data(path):
     return static_file(path, root='data')
-    
+  
+# ==============  
 # Error messages
 # ==============
 @error(404)
 def error404(error):
     return "404 error: file not found %s"%error
     
+# =================
 # RESTful interface
 # =================
 """
@@ -67,12 +66,13 @@ http://localhost:8082/find/id_list       | GET    | retrieve a list of tweets fo
 """    
 @route('/query/<limit>', method="POST")
 def query(limit): 
+    # retrieve the json sent by browser
     data = request.json;
     
     # execute the MongoDB query, returning a list of the _id's that match
-    if int(limit) <= 0: 
+    if int(limit) <= 0:      # unlimited (limit = 0)
         id_list = [tweet for tweet in tweets.find(data,dict({"_id":1}))]
-    else: 
+    else:                    # limited
         id_list = [tweet for tweet in tweets.find(data,dict({"_id":1})).limit(int(limit))]
         
     # how long is the list?
@@ -87,12 +87,41 @@ def query(limit):
     result['id_list'] = id_list
     result['example'] = example
     
-    # convert from MongoDB json to strict json and return the result
+    # convert from MongoDB bson to strict json and return the result
     result = bson.json_util.dumps(result)
     return result
+       
+@route('/findone/<id>', method="GET")
+def findOne(id):
+    # convert id to MongoDB _id
+    mongo_id = bson.objectid.ObjectId(id)
+    
+    # execute the query
+    tweet    = tweets.find_one({'_id': mongo_id})
+    
+    # package the query response
+    result                = dict()
+    result['first_tweet'] = tweet
+    
+    # convert from MongoDB bson to strict json and return the result
+    result   = bson.json_util.dumps(result)
+    return result
+    
+@route('/find/<id_list>', method="GET")
+def find(id_list):
+    # convert comma-delimited string into list of MongoDB '_id's
+    mongo_id_list = map(bson.objectid.ObjectId, id_list.split(','))
 
-# Send HTML pages
-# ===============
+    # query MongoDB for the list of '_id's
+    result = tweets.find({'_id': { '$in': mongo_id_list}})
+    
+    # convert from MongoDB bson to strict json and return
+    return bson.json_util.dumps(result)
+    
+
+# ===============================
+# Send static files from the root
+# ===============================
 @route('/')
 def index():
     return static_file('HTAinterface.html', root=PATH)
@@ -102,6 +131,7 @@ def static(path):
     return static_file(path, root=PATH)
     
     
+# ===============================   
 # Shutdown the MongoDB connection
 # ===============================
 @route('/exit')
@@ -109,6 +139,9 @@ def exit():
     connection.disconnect()
     return "MongoDB shut down"
 
+# ==========================================   
+# Connect to the MongoDB database at startup
+# ==========================================
 
 connection_string = "mongodb://localhost"
 connection        = pymongo.MongoClient(connection_string)
@@ -116,6 +149,9 @@ connection        = pymongo.MongoClient(connection_string)
 db     = connection.HTA
 tweets = db.grf
 
-# for production use: remove bottle.debug entirely and remove , reloader=True from bottle.run
+# =======================   
+# Connect to the Internet
+# =======================
+
 bottle.debug(True)
 bottle.run(host='localhost', port=8082, reloader=True)
