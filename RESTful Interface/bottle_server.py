@@ -3,9 +3,8 @@
 Server for the RESTful interface to the MongoDB database
 of tweets for the Healthcare Twitter Analysis project.
 """
-
 import pymongo, bottle
-from bottle import error, route, get, post, static_file, request, abort, response
+from bottle import error, route, get, post, static_file, request, abort, response, template
 import cgi, re, os, json
 from urlparse import parse_qsl
 import bson.json_util
@@ -120,11 +119,16 @@ def find(id_list):
     
 
 # ===============================
-# Send static files from the root
+# Send files from the root
 # ===============================
+"""
+Templates are stored in the views folder.
+index.tpl is the html shell and '% include' 
+commands are used to pull in the various pieces
+"""
 @route('/')
 def index():
-    return static_file('HTAinterface.html', root=PATH)
+    return template('index')
     
 @route('/:path#.+#', name='root')
 def static(path):

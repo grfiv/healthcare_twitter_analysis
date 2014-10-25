@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="Windows-1252" ?>
+<NotepadPlus>
+    <GUIConfigs>
+        <!-- 3 status : "large", "small" or "hide"-->
+        <GUIConfig name="ToolBar" visible="yes">large</GUIConfig>
+        <!-- 2 status : "show" or "hide"-->
+        <GUIConfig name="StatusBar">show</GUIConfig>
+        <!-- For all attributs, 2 status : "yes" or "no"-->
+        <GUIConfig name="TabBar" dragAndDrop="yes" drawTopBar="yes" drawInactiveTab="yes" reduce="no" closeButton="yes" doubleClick2Close="no" vertical="no" multiLine="no" hide="no" />
+        <!-- 2 positions : "horizontal" or "vertical"-->
+        <GUIConfig name="ScintillaViewsSplitter">vertical</GUIConfig>
+        <!-- For the attribut of position, 2 status : docked or undocked ; 2 status : "show" or "hide" -->
+        <GUIConfig name="UserDefineDlg" position="undocked">hide</GUIConfig>
+        <GUIConfig name="TabSetting" size="2" replaceBySpace="yes" />
+        <!--App position-->
+        <GUIConfig name="AppPosition" x="31" y="23" width="728" height="636" isMaximized="yes" />
+        <!-- For the primary scintilla view,
+             2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
+             4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box"  -->
+        <GUIConfig name="ScintillaPrimaryView" lineNumberMargin="show" bookMarkMargin="show" folderMarkStyle="box" indentGuideLine="hide" currentLineHilitingShow="show" Wrap="no" edge="line" edgeNbColumn="100" wrapSymbolShow="hide" zoom="0" whiteSpaceShow="hide" eolShow="hide" lineWrapMethod="aligned" zoom2="0" borderWidth="2" disableAdvancedScrolling="no" />
+        <!-- For the secodary scintilla view,
+             2 status for Attribut lineNumberMargin, bookMarkMargin, indentGuideLine and currentLineHilitingShow: "show" or "hide"
+             4 status for Attribut folderMarkStyle : "simple", "arrow", "circle" and "box" -->
+        <GUIConfig name="Auto-detection">yes</GUIConfig>
+        <GUIConfig name="CheckHistoryFiles">no</GUIConfig>
+        <GUIConfig name="TrayIcon">no</GUIConfig>
+        <GUIConfig name="RememberLastSession">yes</GUIConfig>
+        <!--
+			New Document default settings :
+				format = 0/1/2 -> win/unix/mac
+				encoding = 0/1/2/3/4/5 -> ANSI/UCS2Big/UCS2small/UTF8/UTF8-BOM
+				defaultLang = 0/1/2/..
+
+			Note 1 : UTF8-BOM -> UTF8 without BOM
+			Note 2 : for defaultLang :
+					0 -> L_TXT
+					1 -> L_PHP
+					... (see source file)
+		-->
+        <GUIConfig name="NewDocDefaultSettings" format="0" encoding="0" lang="22" codepage="-1" openAnsiAsUTF8="no" />
+        <GUIConfig name="langsExcluded" gr0="0" gr1="8" gr2="128" gr3="248" gr4="232" gr5="111" gr6="29" gr7="0" langMenuCompact="yes" />
+        <!--
+		printOption is print colour setting, the following values are possible :
+			0 : WYSIWYG
+			1 : Invert colour
+			2 : B & W
+			3 : WYSIWYG but without background colour
+		-->
+        <GUIConfig name="Print" lineNumber="yes" printOption="0" headerLeft="$(FULL_CURRENT_PATH)" headerMiddle="" headerRight="$(LONG_DATE) $(TIME)" headerFontName="IBMPC" headerFontStyle="1" headerFontSize="8" footerLeft="" footerMiddle="-$(CURRENT_PRINTING_PAGE)-" footerRight="" footerFontName="" footerFontStyle="0" footerFontSize="9" margeLeft="0" margeTop="0" margeRight="0" margeBottom="0" />
+        <!--
+                            Backup Setting :
+                                0 : non backup
+                                1 : simple backup
+                                2 : verbose backup
+                      -->
+        <GUIConfig name="Backup" action="0" useCustumDir="no" dir="" isSnapshotMode="yes" snapshotBackupTiming="120000" />
+        <GUIConfig name="TaskList">yes</GUIConfig>
+        <GUIConfig name="SaveOpenFileInSameDir">no</GUIConfig>
+        <!--
+			value 0 for the folloing parameters means invisible :
+			leftWidth, topHight, rightWidth, bottomHight
+			
+					position value for the PluginDlg:
+						
+						0 : left
+						 1 : right
+						2 : top
+						3 : bottom
+						>= 4 : undocked -> FloatingWindow id
+			-->
+        <GUIConfig name="noUpdate" intervalDays="15" nextUpdateDate="20141108">no</GUIConfig>
+        <GUIConfig name="MaitainIndent">yes</GUIConfig>
+        <GUIConfig name="MRU">yes</GUIConfig>
+        <GUIConfig name="URL">2</GUIConfig>
+        <GUIConfig name="globalOverride" fg="no" bg="no" font="no" fontSize="no" bold="no" italic="no" underline="no" />
+        <GUIConfig name="auto-completion" autoCAction="0" triggerFromNbChar="1" funcParams="yes" />
+        <GUIConfig name="sessionExt"></GUIConfig>
+        <GUIConfig name="SmartHighLight">yes</GUIConfig>
+        <GUIConfig name="TagsMatchHighLight" TagAttrHighLight="yes" HighLightNonHtmlZone="no">yes</GUIConfig>
+        <GUIConfig name="MenuBar">show</GUIConfig>
+        <GUIConfig name="Caret" width="1" blinkRate="250" />
+        <GUIConfig name="ScintillaGlobalSettings" enableMultiSelection="no" />
+        <GUIConfig name="openSaveDir" value="1" defaultDirPath="C:\Users\GRFisher4\Documents" />
+        <GUIConfig name="titleBar" short="no" />
+        <GUIConfig name="stylerTheme" path="C:\Users\GRFisher4\AppData\Roaming\Notepad++\stylers.xml" />
+        <GUIConfig name="SmartHighLightCaseSensitive">yes</GUIConfig>
+        <GUIConfig name="delimiterSelection" leftmostDelimiter="40" rightmostDelimiter="41" delimiterSelectionOnEntireDocument="no" />
+        <GUIConfig name="multiInst" setting="0" />
+        <GUIConfig name="auto-insert" parentheses="no" brackets="no" curlyBrackets="no" quotes="no" doubleQuotes="no" htmlXmlTag="no" />
+        <GUIConfig name="MISC" fileSwitcherWithoutExtColumn="no" backSlashIsEscapeCharacterForSql="yes" />
+        <GUIConfig name="DetectEncoding">yes</GUIConfig>
+        <GUIConfig name="DockingManager" leftWidth="319" rightWidth="304" topHeight="200" bottomHeight="200">
+            <FloatingWindow cont="4" x="25" y="25" width="545" height="479" />
+            <PluginDlg pluginName="dummy" id="0" curr="3" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Snippets" id="-1" curr="1" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="JSLintNpp.dll" id="5" curr="3" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="NPPJSONViewer.dll" id="0" curr="0" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Notepad++::InternalFunction" id="44084" curr="1" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="PreviewHTML.dll" id="0" curr="4" prev="0" isVisible="no" />
+            <PluginDlg pluginName="NppFTP.dll" id="0" curr="1" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="NppFTP.dll" id="99" curr="3" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Notepad++::InternalFunction" id="44081" curr="0" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Notepad++::InternalFunction" id="44070" curr="0" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Python Script" id="-1" curr="3" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Explorer.dll" id="0" curr="0" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Explorer.dll" id="1" curr="0" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="NppExec.dll" id="2" curr="3" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Notepad++::InternalFunction" id="42052" curr="1" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="Notepad++::InternalFunction" id="44080" curr="1" prev="-1" isVisible="no" />
+            <PluginDlg pluginName="ComparePlugin.dll" id="9" curr="1" prev="-1" isVisible="no" />
+            <ActiveTabs cont="0" activeTab="-1" />
+            <ActiveTabs cont="1" activeTab="-1" />
+            <ActiveTabs cont="2" activeTab="-1" />
+            <ActiveTabs cont="3" activeTab="-1" />
+        </GUIConfig>
+    </GUIConfigs>
+    <!-- The History of opened files list -->
+    <FindHistory nbMaxFindHistoryPath="10" nbMaxFindHistoryFilter="10" nbMaxFindHistoryFind="10" nbMaxFindHistoryReplace="10" matchWord="no" matchCase="no" wrap="no" directionDown="yes" fifRecuisive="yes" fifInHiddenFolder="no" dlgAlwaysVisible="no" fifFilterFollowsDoc="no" fifFolderFollowsDoc="no" searchMode="0" transparencyMode="1" transparency="150" dotMatchesNewline="no">
+        <Find name="Using Chrome, load the interface " />
+        <Find name=".*\.js" />
+        <Find name=".*\.css" />
+        <Find name="jquery.*\.css" />
+        <Find name="jquery-.*\.css" />
+        <Find name="display-first-button" />
+        <Find name="button" />
+        <Find name="a button element" />
+        <Find name="tooltip" />
+        <Find name="Tabs" />
+        <Replace name="&apos;search_key&apos;" />
+        <Replace name="&apos;&apos;" />
+        <Replace name="&apos;" />
+        <Replace name="tweet_freq" />
+        <Replace name="country_counts" />
+        <Replace name="&apos;/home/ubuntu/geocoding/" />
+        <Replace name="alltweet_" />
+        <Replace name="alltweet" />
+        <Replace name=")" />
+        <Replace name="library(" />
+    </FindHistory>
+    <FileEditViewHistory FileEditViewHistoryRestoreEnabled="False" nbMaxFile="20" activeMainIndex="0">
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="440" startPos="0" endPos="0" selMode="0" lang="Matlab" encoding="-1" filename="C:\Users\GRFisher4\Documents\Dropbox\MathPack\CCseq.m" />
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="712" startPos="0" endPos="0" selMode="0" lang="Python" encoding="-1" filename="C:\Python32\grf\tic_toc.py" />
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="584" startPos="0" endPos="0" selMode="0" lang="Python" encoding="-1" filename="C:\Python32\grf\BSMdemo.py" />
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="768" startPos="0" endPos="0" selMode="0" lang="Python" encoding="-1" filename="C:\Python32\grf\BSM.py" />
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="576" startPos="0" endPos="0" selMode="0" lang="Normal Text" encoding="-1" filename="C:\Program Files (x86)\Notepad++\change.log" />
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="1904" startPos="0" endPos="0" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\GRFisher4\Documents\My Web Sites\Philadelphia-Reflections\philadelphia-reflections-www\index.php" />
+        <File firstVisibleLine="12" xOffset="0" scrollWidth="624" startPos="1038" endPos="1077" selMode="0" lang="Python" encoding="-1" filename="C:\Python32\MA511_Lecture31.py" />
+        <File firstVisibleLine="0" xOffset="0" scrollWidth="184" startPos="41" endPos="47" selMode="0" lang="Matlab" encoding="-1" filename="C:\Users\GRFisher4\Documents\Dropbox\MathPack\PlotTest.m" />
+        <File firstVisibleLine="1" xOffset="0" scrollWidth="800" startPos="143" endPos="143" selMode="0" lang="Matlab" encoding="-1" filename="C:\Users\GRFisher4\Documents\Dropbox\MathPack\MA511_Lecture31.m" />
+    </FileEditViewHistory>
+    <History nbMaxFile="15" inSubMenu="no" customLength="-1">
+        <File filename="C:\Users\GRFisher4\Documents\AngularJQueryBottle\index.html" />
+        <File filename="C:\Users\GRFisher4\Documents\AngularJQueryBottle\data\data.json" />
+        <File filename="C:\Users\GRFisher4\Documents\AngularJQueryBottle\jquery.html" />
+        <File filename="E:\HTA\RESTful Interface\index.html" />
+        <File filename="E:\HTA\RESTful Interface\jquery.html" />
+        <File filename="E:\HTA\RESTful Interface\jqueryUI.html" />
+        <File filename="E:\HTA\RESTful Interface\css\jQueryUI_inline.css" />
+        <File filename="C:\Users\GRFisher4\Documents\Healthcare_Twitter_Analysis\healthcare_twitter_analysis\README.md" />
+        <File filename="E:\HTA\RESTful Interface\indexUI.html" />
+        <File filename="E:\HTA\RESTful Interface\js\interface.js" />
+        <File filename="E:\HTA\RESTful Interface\HTAinterface.html" />
+        <File filename="E:\HTA\RESTful Interface\choropleth.html" />
+        <File filename="E:\HTA\RESTful Interface\views\instructions_tab.tpl" />
+        <File filename="E:\HTA\RESTful Interface\js\interface_tab.js" />
+        <File filename="E:\HTA\RESTful Interface\views\interface_tab.tpl" />
+    </History>
+    <ProjectPanels>
+        <ProjectPanel id="0" workSpaceFile="" />
+        <ProjectPanel id="1" workSpaceFile="" />
+        <ProjectPanel id="2" workSpaceFile="" />
+    </ProjectPanels>
+</NotepadPlus>
