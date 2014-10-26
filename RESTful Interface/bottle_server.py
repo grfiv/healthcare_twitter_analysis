@@ -131,9 +131,6 @@ def find(id_list):
 @route('/choropleth/<search_term>', method="GET")
 def choropleth(search_term):
     """                       
-    I timed doing the counting in Python vs MongoDB Aggregation
-    and MongoDB was over 30% faster on the clock. 
-    
     In the $match step we filter down to what we want to aggregate:
        1. find only records containing the search_term (indexed)
        2.     in a record with country_code = "US"     (indexed)
@@ -162,7 +159,7 @@ def choropleth(search_term):
 # ===============================
 """
 Templates are stored in the views folder.
-index.tpl is the html shell and '% include' 
+index.tpl is the html shell ... '% include' 
 commands are used to pull in the various pieces
 """
 @route('/')
