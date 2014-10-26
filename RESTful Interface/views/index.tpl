@@ -10,6 +10,7 @@
 
     <link href="css/jquery-ui.css"       rel="stylesheet">
     <link href="css/jQueryUI_inline.css" rel="stylesheet">
+    <link href="css/choropleth.css"      rel="stylesheet">
   </head>
   
   <body>
@@ -23,21 +24,21 @@
       
   <div id="tabs">
       <ul>
-          <li><a href="#tabs-1">Interface</a></li>
-          <li><a href="#tabs-2">Instructions</a></li>
+          <li><a href="#tabs-1">Introduction</a></li>
+          <li><a href="#tabs-2">Interface</a></li>
           <li><a href="#tabs-3">Choropleth</a></li>
-          <li><a href="#tabs-4">Unused</a></li>
+          <li><a href="#tabs-4">Instructions</a></li>
       </ul>
       
-      <!-- ====================  INTERFACE ==================== -->
+      <!-- ====================  INTRODUCTION ==================== -->
       <div id="tabs-1">
-% include('interface_tab.tpl')
+% include('introduction_tab.tpl')
 
-      </div> <!-- id="tabs-1"  -->
-      
-      <!-- ====================  INSTRUCTIONS ==================== -->
-      <div id="tabs-2" style='font-size:150%;'>
-% include('instructions_tab.tpl')
+      </div> <!-- id="tabs-1"  -->      
+
+      <!-- ====================  INTERFACE ==================== -->
+      <div id="tabs-2">
+% include('interface_tab.tpl')
 
       </div> <!-- id="tabs-2"  -->
       
@@ -47,17 +48,19 @@
 
       </div> <!-- id="tabs-3"  -->
       
-      <!-- ====================  tabs-4 ==================== -->
-      <div id="tabs-4">
-        <section class="tabs-4">
-          <p>Currently unused</p>
-        </section>
+      <!-- ====================  INSTRUCTIONS ==================== -->
+      <div id="tabs-4" style='font-size:150%;'>
+% include('instructions_tab.tpl')
+
       </div> <!-- id="tabs-4"  -->
       
   </div> <!-- id="tabs"  -->
   
   <script src="js/jquery-2.1.1.min.js"></script>
   <script src="js/jquery-ui.js"></script>
+  <script src="js/d3.v3.min.js"></script>
+  <script src="js/queue.v1.min.js"></script>
+  <script src="js/topojson.v1.min.js"></script>
   <script>
   // ==============
   // jQuery UI code
@@ -83,6 +86,7 @@
   }
   </script>
   <script src="js/interface_tab.js"></script>
+  <script src="js/choropleth_tab.js"></script>
   
   </body>
 </html>

@@ -16,7 +16,7 @@ $( ".query-input-button" ).on('click', function() {
   // -----------------------
   var query_str = $( "#query-text" ).val();
   if (query_str === "") {
-    query_str = "{$text: {$search: '#Sepsis'}}";
+    query_str = $( "#query-text" ).attr("placeholder");
   }
   
   var limit = $( "#query-limit" ).val();

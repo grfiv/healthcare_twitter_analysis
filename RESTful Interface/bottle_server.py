@@ -4,9 +4,11 @@ Server for the RESTful interface to the MongoDB database
 of tweets for the Healthcare Twitter Analysis project.
 """
 import pymongo, bottle
-from bottle import error, route, get, post, static_file, request, abort, response, template
-import cgi, re, os, json
-from urlparse import parse_qsl
+from bottle import error, route, get, post, static_file, request, abort, response, template, hook
+import os, json
+#import cgi, re
+#from urlparse import parse_qsl
+from datetime import datetime
 import bson.json_util
 
 PATH           = os.path.dirname(__file__)
@@ -63,6 +65,12 @@ http://localhost:8082/findOne/id         | GET    | retrieve a single tweet by i
 http://localhost:8082/find/id_list       | GET    | retrieve a list of tweets for a list of ids | a list of tweets                            |
     
 """    
+# allow Cross-Origin Resource Sharing
+# see http://bottlepy.org/docs/dev/recipes.html#using-the-hooks-plugin
+@hook('after_request')
+def enable_cors():
+    response.headers['Access-Control-Allow-Origin'] = '*'
+
 @route('/query/<limit>', method="POST")
 def query(limit): 
     # retrieve the json sent by browser
@@ -117,6 +125,37 @@ def find(id_list):
     # convert from MongoDB bson to strict json and return
     return bson.json_util.dumps(result)
     
+# =========================
+# Choropleth REST interface
+# =========================
+@route('/choropleth/<search_term>', method="GET")
+def choropleth(search_term):
+    """                       
+    I timed doing the counting in Python vs MongoDB Aggregation
+    and MongoDB was over 30% faster on the clock. 
+    
+    In the $match step we filter down to what we want to aggregate:
+       1. find only records containing the search_term (indexed)
+       2.     in a record with country_code = "US"     (indexed)
+       3.         with a non-empty FIPS field
+       
+    In the $group step 
+      1. we GROUP BY each FIPS code
+      2.     and count the number of each
+    
+    for a search_term of "cancer" ...
+    search_results['result'][0]          == {u'_id': u'31137', u'count': 1}
+    search_results['result'][0]['_id']   == u'31137'
+    search_results['result'][0]['count'] == 1
+    """
+        
+    search_results = tweets.aggregate( [
+        { '$match': {'$text': {'$search': search_term}, "geo_reverse.country_code": "US", "geo_reverse.FIPS": {'$ne': ""}} },
+        { '$group': { '_id': "$geo_reverse.FIPS", 'count': { '$sum': 1 } } }
+      ] );
+    returnedList = search_results['result']
+    print  returnedList
+    return bson.json_util.dumps(returnedList)
 
 # ===============================
 # Send files from the root
@@ -143,9 +182,30 @@ def exit():
     connection.disconnect()
     return "MongoDB shut down"
 
-# ==========================================   
-# Connect to the MongoDB database at startup
-# ==========================================
+# =================================== STARTUP OPERATIONS ==========================================    
+    
+# ========================================================     
+# read the county id's from the json used to build the map
+# ========================================================
+f    = open("data/us.json")
+line = f.readline()
+f.close()
+# build a set of all the county id's in the map
+usjson         = json.loads(line)
+countyGeomList = usjson["objects"]["counties"]['geometries']
+mapIdSet = set()
+for geom in countyGeomList:
+    mapIdSet.add(geom['id'])
+# in the choropleth REST interface we will use set operations
+# to include any id's not returned from MongoDB, set to a count of zero
+#
+# from the documentation:
+# https://docs.python.org/2/library/sets.html#set-objects
+# s.difference(t)	s - t	new set with elements in s but not in t
+
+# ===============================   
+# Connect to the MongoDB database
+# ===============================
 
 connection_string = "mongodb://localhost"
 connection        = pymongo.MongoClient(connection_string)

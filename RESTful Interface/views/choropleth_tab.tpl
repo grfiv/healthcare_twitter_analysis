@@ -1,12 +1,25 @@
-        <section class="choropleth-section" style='font-size:150%; font-family:"Times New Roman",Garamond, serif'>
-        <p>
-          The link below brings up a D3.js choropleth map of US counties colored by unemployment rate 
-          loaded from a tab-separated file.<br><br> The plan is to figure out how to use the FIPS data stored
-          in the reverse-geo-tagged MongoDB documents for this project to search for any arbitrary 
-          string in the database (words, hashtags, etc.) and plot their incidence on this same map
-          in real time.<br><br>I have shown how to do background requests for data from the project's
-          MongoDB database in the Interface tab and my thought is that this base technology will 
-          allow all sorts of web-based analyses and visualizations.
-        </p>
-          <a href="choropleth.html">Choropleth</a>
+        <section class="choropleth-input-section">
+          <label for="choropleth-text" style='font-size:200%;'>Enter a term to search for &nbsp;</label>
+          <input type="text" id="choropleth-text" name="choropleth-text" 
+                 placeholder=" cancer"
+                 style='width:450px;height:40px;font-size:200%'>
+          <br>
+          
+          <button id="choropleth-button" class="choropleth-input-button"  style='margin: 15px 0 15px 400px;font-size:200%;border-radius: 15px;'>
+                  Click to send the query</button><br>
+                  
+          <!-- Progressbar -->
+          <div id="choropleth-progress-bar" style='display: none;'>
+            <h2 class="demoHeaders">Progressbar</h2>
+            <div id="progressbar"></div>
+          </div>
+          
+        </section>
+        
+        <hr>
+        
+        <section id="choropleth-display-section" style='display: none;'>
+          <h1 id="choropleth-display-header"></h1>
+          <div id="choropleth-display"></div>
+          <div id="choropleth-gradient"><img src="img/choropleth-gradient.jpg" alt="choropleth gradient" />
         </section>
