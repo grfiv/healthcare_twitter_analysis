@@ -30,10 +30,9 @@ The Status Report has a section with some of the technical details of Bottle, jQ
 -------------------------------
 ####Complete dataset of the tweets for this project
 
-All of the tweets for this project have been processed and consolidated into a single file that can be downloaded with this link:
+Numerous files were created in the course of this project. They can be viewed at and downloaded from the Amazon S3 bucket where they have been archived at this web address: http://healthcare-twitter-analysis.com.s3-website-us-west-1.amazonaws.com/ 
 
-- https://s3-us-west-2.amazonaws.com/healthcare-twitter-analysis/HTA_noduplicates.gz  
-1.85 Gb zipped / 15.80 Gb unzipped  
+All of the tweets for this project have been processed and consolidated into a single file **HTA_noduplicates.gz** that can be found by entering the file name in the search box at http://healthcare-twitter-analysis.com.s3-website-us-west-1.amazonaws.com/
 
 
 Each of the 4 million rows in this file is a tweet in json format.
